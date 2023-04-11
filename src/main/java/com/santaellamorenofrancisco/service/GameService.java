@@ -1,0 +1,103 @@
+package com.santaellamorenofrancisco.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.santaellamorenofrancisco.model.Game;
+import com.santaellamorenofrancisco.model.Game;
+import com.santaellamorenofrancisco.repository.GameRepository;
+
+@Service
+public class GameService {
+	@Autowired
+	GameRepository repository;
+	
+	public List<Game> getAllGames() throws Exception{
+		try {
+			List<Game> gamelist = repository.findAll();
+			return gamelist;
+		} catch (Exception e) {
+			throw new Exception("No hay juegos en la base de datos");
+		}
+	}
+	
+	public Game getGameById(Long id) throws Exception, IllegalArgumentException, NullPointerException {
+		if (id != null) {
+			try {
+				Optional<Game> gamelist = repository.findById(id);
+				if (gamelist.isPresent()) {
+					return gamelist.get();
+				} else {
+					//logger.error("The Client doesn't exists in the database.");
+					throw new Exception("El juego no existe");
+				}
+			} catch (IllegalArgumentException e) {
+				//logger.error("IllegalArgumentException in the method getClientById: " + e);
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				//logger.error("Exception in the method getClientById: " + e);
+				throw new Exception(e);
+			}
+		} else {
+			//logger.error("NullPointerException in the method getClientById id equals to null.");
+			throw new NullPointerException("El id es nulo");
+		}
+	}
+	
+	public Game createGame(Game game) throws Exception, NullPointerException {
+		if (game != null && game.getId()==null) {
+			try {
+				return repository.save(game);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else if (game != null) {
+			try {
+				return updateGame(game);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		}else {
+			throw new NullPointerException("El juego es nulo");
+		}
+	}
+	
+	public Game updateGame(Game game) throws Exception {
+		if (game != null) {
+			try {
+				return repository.save(game);
+			} catch (Exception e) {
+				//logger.error("Cannot update");
+				throw new Exception(e);
+			}
+		} else {
+			//logger.error("NullPointerException in the method updateClient client is null");
+			throw new NullPointerException("El juego es nulo");
+		}
+	}
+	
+	public void deleteGameById(Long id) throws NullPointerException, IllegalArgumentException, Exception {
+		if (id != null) {
+			Optional<Game> gamelist;
+			try {
+				gamelist = Optional.ofNullable(getGameById(id));
+				if (!gamelist.isEmpty()) {
+					repository.deleteById(id);
+				} else {
+					throw new Exception("El juego no existe");
+				}
+			} catch (IllegalArgumentException e1) {
+				throw new IllegalArgumentException("El juego no existe");
+			} catch (NullPointerException e1) {
+				throw new NullPointerException("El juego es nulo");
+			} catch (Exception e) {
+				throw new Exception("El juego no existe", e);
+			}
+		} else {
+			throw new NullPointerException("El id es nulo");
+		}
+	}
+}

@@ -54,6 +54,8 @@ public class Game implements Serializable {
 	  Set<User> userswishlist;
 	@ManyToMany(mappedBy = "gameslist")
 	Set<Genre> genreslist;
+	@ManyToMany(mappedBy = "gamesplatforms")
+	Set<Platform> platforms;
 	@ManyToOne
     @JoinColumn(name="user_id", nullable=false)
 	private User publisher;
@@ -62,7 +64,8 @@ public class Game implements Serializable {
     private Set<File> files;
 
 	public Game(Long id, String name, String description, float precio, boolean earlyaccess, Date fechasalida,
-			Set<User> userslibrary, Set<User> userswishlist, Set<Genre> genreslist, User publisher, Set<File> files) {
+			Set<User> userslibrary, Set<User> userswishlist, Set<Genre> genreslist, Set<Platform> platforms,
+			User publisher, Set<File> files) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -73,6 +76,7 @@ public class Game implements Serializable {
 		this.userslibrary = userslibrary;
 		this.userswishlist = userswishlist;
 		this.genreslist = genreslist;
+		this.platforms = platforms;
 		this.publisher = publisher;
 		this.files = files;
 	}
@@ -153,6 +157,14 @@ public class Game implements Serializable {
 		this.genreslist = genreslist;
 	}
 
+	public Set<Platform> getPlatforms() {
+		return platforms;
+	}
+
+	public void setPlatforms(Set<Platform> platforms) {
+		this.platforms = platforms;
+	}
+
 	public User getPublisher() {
 		return publisher;
 	}
@@ -173,10 +185,7 @@ public class Game implements Serializable {
 	public String toString() {
 		return "Game [id=" + id + ", name=" + name + ", description=" + description + ", precio=" + precio
 				+ ", earlyaccess=" + earlyaccess + ", fechasalida=" + fechasalida + ", userslibrary=" + userslibrary
-				+ ", userswishlist=" + userswishlist + ", genreslist=" + genreslist + ", publisher=" + publisher
-				+ ", files=" + files + "]";
+				+ ", userswishlist=" + userswishlist + ", genreslist=" + genreslist + ", platforms=" + platforms
+				+ ", publisher=" + publisher + ", files=" + files + "]";
 	}
-	
-	
-
 }

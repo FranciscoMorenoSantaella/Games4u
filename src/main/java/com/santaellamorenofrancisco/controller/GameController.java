@@ -77,4 +77,16 @@ public class GameController {
 		}
 
 	}
+	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@GetMapping("getgamebyname/{name}")
+	public ResponseEntity<List<Game>> getGameByName(@PathVariable String name) {
+		try {
+			List<Game> gamelist = service.getGameByName(name);
+			return new ResponseEntity<List<Game>>(gamelist, new HttpHeaders(), HttpStatus.OK);
+
+		} catch (Exception e) {
+			return new ResponseEntity<List<Game>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
 }

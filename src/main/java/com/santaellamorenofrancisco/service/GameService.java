@@ -113,11 +113,19 @@ public class GameService {
 			} catch (Exception e) {
 				throw new Exception("Error en la consulta", e);
 			}
-
 		} else {
 			throw new Exception("El numero de pagina y/o el limite no puede ser menor que 0");
 		}
 
+	}
+	
+	public List<Game> getGameByName(String name) throws Exception{
+		try {
+			List<Game> gamelist = repository.getGameByName(name);
+			return gamelist;
+		} catch (Exception e) {
+			throw new Exception("No hay juegos en la base de datos");
+		}
 	}
 
 }

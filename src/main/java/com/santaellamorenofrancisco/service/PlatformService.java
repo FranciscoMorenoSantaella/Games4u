@@ -6,30 +6,29 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.santaellamorenofrancisco.model.ShoppingCart;
-import com.santaellamorenofrancisco.repository.ShoppingCartRepository;
+import com.santaellamorenofrancisco.model.Platform;
+import com.santaellamorenofrancisco.repository.PlatformRepository;
 
 @Service
-public class ShoppingCartService {
+public class PlatformService {
 	@Autowired
-	ShoppingCartRepository repository;
+	PlatformRepository repository;
 	
-	
-	public List<ShoppingCart> getAllShoppingCarts() throws Exception{
+	public List<Platform> getAllPlatforms() throws Exception{
 		try {
-			List<ShoppingCart> shoppingcartlist = repository.findAll();
-			return shoppingcartlist;
+			List<Platform> platformlist = repository.findAll();
+			return platformlist;
 		} catch (Exception e) {
 			throw new Exception("No hay carro de la compras en la base de datos");
 		}
 	}
 	
-	public ShoppingCart getShoppingCartById(Long id) throws Exception, IllegalArgumentException, NullPointerException {
+	public Platform getPlatformById(Long id) throws Exception, IllegalArgumentException, NullPointerException {
 		if (id != null) {
 			try {
-				Optional<ShoppingCart> shoppingcartlist = repository.findById(id);
-				if (shoppingcartlist.isPresent()) {
-					return shoppingcartlist.get();
+				Optional<Platform> platformlist = repository.findById(id);
+				if (platformlist.isPresent()) {
+					return platformlist.get();
 				} else {
 					//logger.error("The Client doesn't exists in the database.");
 					throw new Exception("El carro de la compra no existe");
@@ -47,17 +46,17 @@ public class ShoppingCartService {
 		}
 	}
 	
-	public ShoppingCart createShoppingCart(ShoppingCart shoppingcart) throws Exception, NullPointerException {
-		if (shoppingcart != null && shoppingcart.getId()==null) {
+	public Platform createPlatform(Platform platform) throws Exception, NullPointerException {
+		if (platform != null && platform.getId()==null) {
 			try {
-				return repository.save(shoppingcart);
+				return repository.save(platform);
 			} catch (Exception e) {
 				throw new Exception(e);
 			}
-		} else if (shoppingcart != null) {
+		} else if (platform != null) {
 
 			try {
-				return updateShoppingCart(shoppingcart);
+				return updatePlatform(platform);
 			} catch (Exception e) {
 				throw new Exception(e);
 			}
@@ -66,10 +65,10 @@ public class ShoppingCartService {
 		}
 	}
 	
-	public ShoppingCart updateShoppingCart(ShoppingCart shoppingcart) throws Exception {
-		if (shoppingcart != null) {
+	public Platform updatePlatform(Platform platform) throws Exception {
+		if (platform != null) {
 			try {
-				return repository.save(shoppingcart);
+				return repository.save(platform);
 			} catch (Exception e) {
 				//logger.error("Cannot update");
 				throw new Exception(e);
@@ -80,22 +79,22 @@ public class ShoppingCartService {
 		}
 	}
 	
-	public void deleteShoppingCartById(Long id) throws NullPointerException, IllegalArgumentException, Exception {
+	public void deletePlatformById(Long id) throws NullPointerException, IllegalArgumentException, Exception {
 		if (id != null) {
-			Optional<ShoppingCart> shoppingcartlist;
+			Optional<Platform> platformlist;
 			try {
-				shoppingcartlist = Optional.ofNullable(getShoppingCartById(id));
-				if (!shoppingcartlist.isEmpty()) {
+				platformlist = Optional.ofNullable(getPlatformById(id));
+				if (!platformlist.isEmpty()) {
 					repository.deleteById(id);
 				} else {
-					throw new Exception("El carro de la compra no existe");
+					throw new Exception("La plataforma no existe");
 				}
 			} catch (IllegalArgumentException e1) {
-				throw new IllegalArgumentException("El carro de la compra no existe");
+				throw new IllegalArgumentException("La plataforma no existe");
 			} catch (NullPointerException e1) {
-				throw new NullPointerException("El carro de la compra es nulo");
+				throw new NullPointerException("La plataforma es nula");
 			} catch (Exception e) {
-				throw new Exception("El carro de la compra no existe", e);
+				throw new Exception("La plataforma no existe", e);
 			}
 		} else {
 			throw new NullPointerException("El id es nulo");

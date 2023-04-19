@@ -70,7 +70,9 @@ public class Platform implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Platform [id=" + id + ", name=" + name + ", gamesplatforms=" + gamesplatforms + "]";
+		return "Platform [id=" + id + ", name=" + name + "]";
 	}
+
+	
 
 }

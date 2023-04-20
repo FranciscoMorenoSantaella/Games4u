@@ -21,6 +21,10 @@ public class OrderController {
 	@Autowired
 	OrderService service;
 	
+	/**
+	 * Metodo que devuelve una lista con todas las ordenes
+	 * @return una lista de ordenes
+	 */
 	@GetMapping
 	public ResponseEntity<List<Order>> getAllOrders() {
 		try {
@@ -31,6 +35,11 @@ public class OrderController {
 		}
 	}
 	
+	/**
+	 * Metodo que trae una orden segun su id
+	 * @param id es el id de la orden que queremos buscar
+	 * @return una orden
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
 		try {
@@ -42,6 +51,11 @@ public class OrderController {
 		}
 	}
 	
+	/**
+	 * Metodo que borra una orden segun su id
+	 * @param id es el id de la orden que queremos buscar
+	 * @return la respuesta
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Order> deleteOrderByid(@PathVariable Long id) {
 		try {

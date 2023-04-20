@@ -26,7 +26,13 @@ public class GameController {
 	@Autowired
 	GameService service;
 	
-
+	/**
+	 * Metodo que devuelve una lista de juegos
+	 * 
+	 * @return Lista de juegos con un codigo 200 o una respuesta 400 si no se ha
+	 *         realizado correctamente si devuelve dicha respuesta normalmente sera
+	 *         porque no hay productos en la base de datos
+	 */
 	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping
 	public ResponseEntity<List<Game>> getAllGames() {
@@ -39,6 +45,13 @@ public class GameController {
 		}
 	}
 	
+	/**
+	 * Metodo que sirve para buscar un juego por su id
+	 * 
+	 * @param id El id del juego que queremos borrar
+	 * @return Un codigo 200 de que la operacion se ha realizado o un codigo 400 si
+	 *         ha fallado
+	 */
 	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping("/{id}")
 	public ResponseEntity<Game> getGameById(@PathVariable Long id) {
@@ -51,6 +64,13 @@ public class GameController {
 		}
 	}
 	
+	/**
+	 * Metodo que sirve para borrar un juego por su id
+	 * 
+	 * @param id El id del juego que queremos borrar
+	 * @return Un codigo 200 de que la operacion se ha realizado o un codigo 400 si
+	 *         ha fallado
+	 */
 	@CrossOrigin(origins = "http://localhost:8080")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Game> deleteGameById(@PathVariable Long id) {
@@ -62,6 +82,12 @@ public class GameController {
 		}
 	}
 	
+	/**
+	 * Metodo que sirve para traer una pagina de juegos
+	 * @param pagenumber es el número de la página que queremos traer
+	 * @param pagesize es el número de elementos que hay en cada página
+	 * @return devuelve una pagina de juegos
+	 */
 	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping(value = "getgame/{pagenumber}/{pagesize}", method = RequestMethod.GET)
 	public ResponseEntity<Page<Game>> getProductByPage(@PathVariable int pagenumber, @PathVariable int pagesize) {
@@ -78,6 +104,12 @@ public class GameController {
 
 	}
 	
+	/**
+	 * Metodo que devuelve una lista de videojuegos según el nombre
+	 * no tiene porque coincidir exactamente lo buscado con el nombre del juego
+	 * @param name es el nombre o una aproximacion del nombre que tiene el juego
+	 * @return devuelve una lista de 4 juegos
+	 */
 	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping("getgamebyname/{name}")
 	public ResponseEntity<List<Game>> getGameByName(@PathVariable String name) {

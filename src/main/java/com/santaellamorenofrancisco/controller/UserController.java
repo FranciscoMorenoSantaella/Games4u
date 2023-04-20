@@ -20,6 +20,10 @@ public class UserController {
 	@Autowired
 	UserService service;
 	
+	/**
+	 * Metodo que devuelve una lista de todos los usuarios
+	 * @return una lista de todos los usuarios
+	 */
 	@GetMapping
 	public ResponseEntity<List<User>> getAllUsers() {
 		try {
@@ -30,6 +34,11 @@ public class UserController {
 		}
 	}
 	
+	/**
+	 * Metodo que devuelve un usuario segun su id
+	 * @param id es el id del usuario que buscamos
+	 * @return un usuario
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable Long id) {
 		try {
@@ -41,6 +50,11 @@ public class UserController {
 		}
 	}
 	
+	/**
+	 * Borra un usuario segun su id
+	 * @param id es el id del usuario que vamos a borrar
+	 * @return un usuario
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<User> deleteUserByid(@PathVariable Long id) {
 		try {

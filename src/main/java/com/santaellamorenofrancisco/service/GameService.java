@@ -34,18 +34,14 @@ public class GameService {
 				if (gamelist.isPresent()) {
 					return gamelist.get();
 				} else {
-					//logger.error("The Client doesn't exists in the database.");
 					throw new Exception("El juego no existe");
 				}
 			} catch (IllegalArgumentException e) {
-				//logger.error("IllegalArgumentException in the method getClientById: " + e);
 				throw new IllegalArgumentException(e);
 			} catch (Exception e) {
-				//logger.error("Exception in the method getClientById: " + e);
 				throw new Exception(e);
 			}
 		} else {
-			//logger.error("NullPointerException in the method getClientById id equals to null.");
 			throw new NullPointerException("El id es nulo");
 		}
 	}
@@ -73,11 +69,9 @@ public class GameService {
 			try {
 				return repository.save(game);
 			} catch (Exception e) {
-				//logger.error("Cannot update");
 				throw new Exception(e);
 			}
 		} else {
-			//logger.error("NullPointerException in the method updateClient client is null");
 			throw new NullPointerException("El juego es nulo");
 		}
 	}
@@ -116,7 +110,6 @@ public class GameService {
 		} else {
 			throw new Exception("El numero de pagina y/o el limite no puede ser menor que 0");
 		}
-
 	}
 	
 	public List<Game> getGameByName(String name) throws Exception{

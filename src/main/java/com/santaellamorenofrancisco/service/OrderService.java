@@ -30,18 +30,14 @@ public class OrderService {
 				if (orderlist.isPresent()) {
 					return orderlist.get();
 				} else {
-					//logger.error("The Client doesn't exists in the database.");
 					throw new Exception("La orden no existe");
 				}
 			} catch (IllegalArgumentException e) {
-				//logger.error("IllegalArgumentException in the method getClientById: " + e);
 				throw new IllegalArgumentException(e);
 			} catch (Exception e) {
-				//logger.error("Exception in the method getClientById: " + e);
 				throw new Exception(e);
 			}
 		} else {
-			//logger.error("NullPointerException in the method getClientById id equals to null.");
 			throw new NullPointerException("El id es nulo");
 		}
 	}
@@ -70,11 +66,9 @@ public class OrderService {
 			try {
 				return repository.save(user);
 			} catch (Exception e) {
-				//logger.error("Cannot update");
 				throw new Exception(e);
 			}
 		} else {
-			//logger.error("NullPointerException in the method updateClient client is null");
 			throw new NullPointerException("La orden es nulo");
 		}
 	}

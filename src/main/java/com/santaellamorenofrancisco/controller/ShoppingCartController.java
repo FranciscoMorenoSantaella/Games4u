@@ -21,6 +21,10 @@ public class ShoppingCartController {
 	@Autowired
 	ShoppingCartService service;
 	
+	/**
+	 * Metodo que devuelve una lista con todos los shoppingcart
+	 * @return devuelve una lista de los shoppingcart
+	 */
 	@GetMapping
 	public ResponseEntity<List<ShoppingCart>> getAllShoppingCarts() {
 		try {
@@ -32,6 +36,11 @@ public class ShoppingCartController {
 		}
 	}
 	
+	/**
+	 * Metodo que devuelve un shoppingcart segun su id
+	 * @param id es el id del shoppingcart
+	 * @return un shoppingcart
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<ShoppingCart> getShoppingCartById(@PathVariable Long id) {
 		try {
@@ -43,6 +52,11 @@ public class ShoppingCartController {
 		}
 	}
 	
+	/**
+	 * Metodo que borra un shoppingcart segun su id
+	 * @param id es el id del shoppingcart que queremos borrar
+	 * @return una respuesta
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ShoppingCart> deleteShoppingCartById(@PathVariable Long id) {
 		try {

@@ -26,6 +26,10 @@ public class PlatformController {
 	@Autowired
 	PlatformService service;
 
+	/**
+	 * Metodo que trae una lista con todas las plataformas
+	 * @return una lista con las plataformas
+	 */
 	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping
 	public ResponseEntity<List<Platform>> getAllPlatforms() {
@@ -38,6 +42,11 @@ public class PlatformController {
 		}
 	}
 	
+	/**
+	 * Metodo que devuelve una plataforma segun su id
+	 * @param id el id de la plataforma que queremos buscar
+	 * @return una plataforma
+	 */
 	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping("/{id}")
 	public ResponseEntity<Platform> getPlatformById(@PathVariable Long id) {
@@ -50,6 +59,11 @@ public class PlatformController {
 		}
 	}
 	
+	/**
+	 * Metodo que borra una plataforma segun su id
+	 * @param id es el id de la plataforma que queremos borrar
+	 * @return la plataforma que queremos borrar
+	 */
 	@CrossOrigin(origins = "http://localhost:8080")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Platform> deletePlatformById(@PathVariable Long id) {

@@ -31,18 +31,14 @@ public class UserService {
 				if (userlist.isPresent()) {
 					return userlist.get();
 				} else {
-					//logger.error("The Client doesn't exists in the database.");
 					throw new Exception("El usuario no existe");
 				}
 			} catch (IllegalArgumentException e) {
-				//logger.error("IllegalArgumentException in the method getClientById: " + e);
 				throw new IllegalArgumentException(e);
 			} catch (Exception e) {
-				//logger.error("Exception in the method getClientById: " + e);
 				throw new Exception(e);
 			}
 		} else {
-			//logger.error("NullPointerException in the method getClientById id equals to null.");
 			throw new NullPointerException("El id es nulo");
 		}
 	}
@@ -55,7 +51,6 @@ public class UserService {
 				throw new Exception(e);
 			}
 		} else if (user != null) {
-
 			try {
 				return updateUser(user);
 			} catch (Exception e) {
@@ -71,11 +66,9 @@ public class UserService {
 			try {
 				return repository.save(user);
 			} catch (Exception e) {
-				//logger.error("Cannot update");
 				throw new Exception(e);
 			}
 		} else {
-			//logger.error("NullPointerException in the method updateClient client is null");
 			throw new NullPointerException("El usuario es nulo");
 		}
 	}

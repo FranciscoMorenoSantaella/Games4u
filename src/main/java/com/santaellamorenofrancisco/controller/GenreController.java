@@ -25,6 +25,10 @@ public class GenreController {
 	@Autowired
 	GenreService service;
 
+	/**
+	 * Metodo que devuelve un listado de todos los generos
+	 * @return un listado de todos los generos
+	 */
 	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping
 	public ResponseEntity<List<Genre>> getAllGenres() {
@@ -37,6 +41,11 @@ public class GenreController {
 		}
 	}
 	
+	/**
+	 * Metodo que devuelve un genero segun su id 
+	 * @param id es el id del genero que se va a buscar
+	 * @return un genero
+	 */
 	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping("/{id}")
 	public ResponseEntity<Genre> getGenreById(@PathVariable Long id) {
@@ -49,6 +58,11 @@ public class GenreController {
 		}
 	}
 	
+	/**
+	 * Metodo que sirve para borrar un genero segun su id
+	 * @param id es el id del genero que queremos borrar
+	 * @return devuelve solo la respuesta del codigo de todo ha ido bien o la de no ha ido bien
+	 */
 	@CrossOrigin(origins = "http://localhost:8080")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Genre> deleteGenreById(@PathVariable Long id) {

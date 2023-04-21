@@ -20,6 +20,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * Objeto en el que se define un usuario
+ * @author Francisco
+ *
+ */
 @Entity
 @Table(name = "users")
 public class User implements Serializable {

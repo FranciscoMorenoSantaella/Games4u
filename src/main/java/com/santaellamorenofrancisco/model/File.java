@@ -13,6 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ * Objeto en el que se define un archivo
+ * @author Francisco
+ *
+ */
 @Entity
 @Table(name = "files")
 public class File implements Serializable {

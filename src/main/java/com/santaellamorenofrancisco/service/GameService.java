@@ -112,13 +112,23 @@ public class GameService {
 		}
 	}
 	
-	public List<Game> getGameByName(String name) throws Exception{
+	public List<Game> searchGameByName(String name) throws Exception{
 		try {
-			List<Game> gamelist = repository.getGameByName(name);
+			List<Game> gamelist = repository.searchGameByName(name);
 			return gamelist;
 		} catch (Exception e) {
 			throw new Exception("No hay juegos en la base de datos");
 		}
 	}
+	
+	public Game getGameByName(String name) throws Exception{
+		try {
+			Game game = repository.getGameByName(name);
+			return game;
+		} catch (Exception e) {
+			throw new Exception("No se ha encontrado el juego en la base de datos");
+		}
+	}
+
 
 }

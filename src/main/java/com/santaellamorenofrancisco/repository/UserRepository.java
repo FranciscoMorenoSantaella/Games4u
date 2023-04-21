@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import com.santaellamorenofrancisco.model.User;
 
+/**
+ * 
+ * @author Francisco
+ *
+ */
 @Repository
 @Transactional
 public interface UserRepository extends JpaRepository<User, Long> {

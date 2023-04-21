@@ -13,6 +13,11 @@ import org.springframework.stereotype.Repository;
 
 import com.santaellamorenofrancisco.model.Game;
 
+/**
+ * 
+ * @author Francisco
+ *
+ */
 @Repository
 @Transactional
 public interface GameRepository extends JpaRepository<Game, Long> {
@@ -24,9 +29,10 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 	 * pero si pido la pagina 1 con limite 10 me traera los productos (del 11 al 21)
 	 * @return una pagina de productos
 	 */
-	@Query(nativeQuery = true, value = "SELECT * FROM games g ORDER BY name asc")
+	@Query(nativeQuery = true, value = "SELECT * FROM games g WHERE verified = 1 ORDER BY name asc")
 	Page<Game> getGamesByPage(Pageable var1);
-	@Query(nativeQuery = true, value = "SELECT * FROM games WHERE games.name LIKE CONCAT ('%',:name,'%') LIMIT 4")
-	List<Game> getGameByName(@Param("name") String name);
-
+	@Query(nativeQuery = true, value = "SELECT * FROM games WHERE games.name LIKE CONCAT ('%',:name,'%') AND verified = 1 LIMIT 4")
+	List<Game> searchGameByName(@Param("name") String name);
+	@Query(nativeQuery = true, value = "SELECT * FROM games WHERE name = ?1")
+	Game getGameByName(@Param("name") String name);
 }

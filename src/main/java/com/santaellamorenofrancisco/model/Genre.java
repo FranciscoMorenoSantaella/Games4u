@@ -16,6 +16,11 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * Objeto en el que se define un genero
+ * @author Francisco
+ *
+ */
 @Entity
 @Table(name = "Genres")
 public class Genre implements Serializable {

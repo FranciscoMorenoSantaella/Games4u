@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import com.santaellamorenofrancisco.model.File;
 
+/**
+ * 
+ * @author Francisco
+ *
+ */
 @Repository
 @Transactional
 public interface FileRepository extends JpaRepository<File, Long> {

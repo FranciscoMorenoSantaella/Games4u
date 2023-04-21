@@ -16,6 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Objeto en el que se define un carro de la compra
+ * @author Francisco
+ *
+ */
 @Entity
 @Table(name="shoppingcart")
 public class ShoppingCart implements Serializable {

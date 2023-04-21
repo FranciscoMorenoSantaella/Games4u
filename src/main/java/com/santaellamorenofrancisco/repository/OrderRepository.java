@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import com.santaellamorenofrancisco.model.Order;
 
+/**
+ * 
+ * @author Francisco
+ *
+ */
 @Repository
 @Transactional
 public interface OrderRepository extends JpaRepository<Order, Long> {

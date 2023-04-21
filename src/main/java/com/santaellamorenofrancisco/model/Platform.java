@@ -16,6 +16,11 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * Objeto en el que se define una plataforma
+ * @author Francisco
+ *
+ */
 @Entity
 @Table(name = "platforms")
 public class Platform implements Serializable {

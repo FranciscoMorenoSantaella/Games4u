@@ -19,6 +19,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+
+/**
+ * Objeto en el que se define un juego
+ * @author Francisco
+ *
+ */
 @Entity 
 @Table(name="games")
 public class Game implements Serializable {
@@ -40,6 +46,8 @@ public class Game implements Serializable {
 	private boolean earlyaccess;
 	@Column(name = "fecha_salida")
 	private Date fechasalida;
+	@Column(name = "verified")
+	private boolean verified;
 	@ManyToMany
 	@JoinTable(
 	  name = "library", 
@@ -180,12 +188,21 @@ public class Game implements Serializable {
 	public void setFiles(Set<File> files) {
 		this.files = files;
 	}
+	
+
+	public boolean isVerified() {
+		return verified;
+	}
+
+	public void setVerified(boolean verified) {
+		this.verified = verified;
+	}
 
 	@Override
 	public String toString() {
 		return "Game [id=" + id + ", name=" + name + ", description=" + description + ", precio=" + precio
-				+ ", earlyaccess=" + earlyaccess + ", fechasalida=" + fechasalida + ", userslibrary=" + userslibrary
-				+ ", userswishlist=" + userswishlist + ", genreslist=" + genreslist + ", platforms=" + platforms
-				+ ", publisher=" + publisher + ", files=" + files + "]";
+				+ ", earlyaccess=" + earlyaccess + ", fechasalida=" + fechasalida + ", verified=" + verified
+				+ ", userslibrary=" + userslibrary + ", userswishlist=" + userswishlist + ", genreslist=" + genreslist
+				+ ", platforms=" + platforms + ", publisher=" + publisher + ", files=" + files + "]";
 	}
 }

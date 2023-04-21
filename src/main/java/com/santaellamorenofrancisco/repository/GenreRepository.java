@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import com.santaellamorenofrancisco.model.Genre;
 
+/**
+ * 
+ * @author Francisco
+ *
+ */
 @Repository
 @Transactional
 public interface GenreRepository extends JpaRepository<Genre, Long> {

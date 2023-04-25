@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.santaellamorenofrancisco.model.ShoppingCart;
@@ -17,6 +19,8 @@ import com.santaellamorenofrancisco.service.ShoppingCartService;
 
 @RestController
 @RequestMapping("/shoppingcart")
+@CrossOrigin(origins = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT,
+		RequestMethod.DELETE })
 public class ShoppingCartController {
 	@Autowired
 	ShoppingCartService service;
@@ -25,6 +29,7 @@ public class ShoppingCartController {
 	 * Metodo que devuelve una lista con todos los shoppingcart
 	 * @return devuelve una lista de los shoppingcart
 	 */
+	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping
 	public ResponseEntity<List<ShoppingCart>> getAllShoppingCarts() {
 		try {
@@ -41,6 +46,7 @@ public class ShoppingCartController {
 	 * @param id es el id del shoppingcart
 	 * @return un shoppingcart
 	 */
+	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping("/{id}")
 	public ResponseEntity<ShoppingCart> getShoppingCartById(@PathVariable Long id) {
 		try {
@@ -57,6 +63,7 @@ public class ShoppingCartController {
 	 * @param id es el id del shoppingcart que queremos borrar
 	 * @return una respuesta
 	 */
+	@CrossOrigin(origins = "http://localhost:8080")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ShoppingCart> deleteShoppingCartById(@PathVariable Long id) {
 		try {

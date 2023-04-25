@@ -44,8 +44,8 @@ public class User implements Serializable {
 	private String email;
 	@Column(name = "admin")
 	private Boolean admin;
-	@Column(name = "password")
-	private String password;
+	@Column(name = "uid")
+	private String uid;
 	@JsonIgnore
 	@ManyToMany(mappedBy = "userswishlist")
 	Set<Game> gameswishlist;
@@ -61,14 +61,14 @@ public class User implements Serializable {
 	// Un usuario sube ninguno uno o varios juegos y un juego es subido por un
 	// usuario
 	
-	public User(Long id, String name, String email, Boolean admin, String password, Set<Game> gameswishlist,
+	public User(Long id, String name, String email, Boolean admin, String uid, Set<Game> gameswishlist,
 			Set<Game> gamespublished, Set<Game> gameslibrary) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.admin = admin;
-		this.password = password;
+		this.uid = uid;
 		this.gameswishlist = gameswishlist;
 		this.gamespublished = gamespublished;
 		this.gameslibrary = gameslibrary;
@@ -110,12 +110,12 @@ public class User implements Serializable {
 		this.admin = admin;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getUid() {
+		return uid;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 
 	public Set<Game> getGameswishlist() {
@@ -144,7 +144,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", admin=" + admin + ", password=" + password
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", admin=" + admin + ", uid=" + uid
 				+ "]";
 	}
 

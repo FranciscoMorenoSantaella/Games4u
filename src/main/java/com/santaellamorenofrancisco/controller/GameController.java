@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -122,6 +123,11 @@ public class GameController {
 		}
 	}
 	
+	/**
+	 * Metodo que trae un juego segun su nombre
+	 * @param name el nombre del juego que queremos buscar
+	 * @return en juego
+	 */
 	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping("getgamebyname/{name}")
 	public ResponseEntity<Game> getGameByName(@PathVariable String name) {
@@ -130,6 +136,71 @@ public class GameController {
 			return new ResponseEntity<Game>(game, new HttpHeaders(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Game>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	/**
+	 * Metodo que trae una lista de juegos segun su publisher
+	 * @param user_id es el id del publisher del que queremos saber sus juegos
+	 * @return una lista de videojuegos
+	 */
+	@CrossOrigin(origins = "http://localhost:8080")
+	@GetMapping("getgamesbypublisher/{user_id}")
+	public ResponseEntity<List<Game>> getGamesByPublisher(@PathVariable Long user_id) {
+		try {
+			List<Game> gamelist = service.getGamesByPublisher(user_id);
+			return new ResponseEntity<List<Game>>(gamelist, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<Game>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	/**
+	 * Metodo que cuenta cuantos juegos ha vendido un usuario
+	 * @param user_id es el id del usuario del que queremos saber cuantos juegos ha vendido
+	 * @return es el id del usuario
+	 */
+	@CrossOrigin(origins = "http://localhost:8080")
+	@GetMapping("countsellgames/{user_id}")
+	public ResponseEntity<Long> countSellGames(@PathVariable Long user_id) {
+		try {
+			Long sell = service.countSellGames(user_id);
+			return new ResponseEntity<Long>(sell, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Long>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	/**
+	 * Metodo que añade un juego a la libreria de un usuario
+	 * @param game_id es el id del juego que vamos a añadir
+	 * @param user_id es el id del usuario al que le vamos a añadir el juego
+	 * @return un boolean
+	 */
+	@CrossOrigin(origins = "http://localhost:8080")
+	@GetMapping("addgametolibrary/{game_id}/{user_id}")
+	public ResponseEntity<Boolean> addGameToLibrary(@PathVariable Long game_id, @PathVariable 	Long user_id) {
+		try {
+			Boolean aux = service.addGameToLibrary(game_id,user_id);
+			return new ResponseEntity<Boolean>(aux, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Boolean>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	/**
+	 * Metodo que trae una lista de videojuegos que un usuario tiene comprados
+	 * @param user_id es el id del usuario del que queremos saber su listado de juegos comprados
+	 * @return una lista de juegos
+	 */
+	@CrossOrigin(origins = "http://localhost:8080")
+	@GetMapping("getlibrarybyid/{user_id}")
+	public ResponseEntity<List<Game>> getLibraryById(@PathVariable Long user_id) {
+		try {
+			List<Game> gamelist = service.getLibraryById(user_id);
+			return new ResponseEntity<List<Game>>(gamelist, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<Game>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}
 }

@@ -46,6 +46,25 @@ public class GameService {
 		}
 	}
 	
+	public List<Game> getGamesByPublisher(Long id) throws Exception, IllegalArgumentException, NullPointerException {
+		if (id != null) {
+			try {
+				List<Game> gamelist = repository.getGamesByPublisher(id);
+				if (gamelist != null) {
+					return gamelist;
+				} else {
+					throw new Exception("No ha publicado juegos");
+				}
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El id es nulo");
+		}
+	}
+	
 	public Game createGame(Game game) throws Exception, NullPointerException {
 		if (game != null && game.getId()==null) {
 			try {
@@ -121,6 +140,24 @@ public class GameService {
 		}
 	}
 	
+	public Long countSellGames(Long user_id) throws Exception{
+		try {
+			Long sell = repository.countSellGames(user_id);
+			return sell;
+		} catch (Exception e) {
+			throw new Exception("No se ha podido realizar la consulta");
+		}
+	}
+	
+	public Boolean addGameToLibrary(Long game_id, Long user_id) throws Exception{
+		try {
+		    repository.addGameToLibrary(game_id,user_id);
+			return true;
+		} catch (Exception e) {
+			throw new Exception("No se ha podido realizar la consulta");
+		}
+	}
+	
 	public Game getGameByName(String name) throws Exception{
 		try {
 			Game game = repository.getGameByName(name);
@@ -129,6 +166,29 @@ public class GameService {
 			throw new Exception("No se ha encontrado el juego en la base de datos");
 		}
 	}
+	
+	public List<Game> getLibraryById(Long user_id) throws NullPointerException, IllegalArgumentException, Exception {
+		if (user_id != null) {
+			try {
+				List <Game>gamelist = repository.getLibraryById(user_id);
+				if (gamelist != null) {
+					return gamelist;
+				} else {
+					throw new Exception("No tienes juegos en la libreria");
+				}
+			} catch (IllegalArgumentException e1) {
+				throw new IllegalArgumentException("No tienes juegos en la libreria");
+			} catch (NullPointerException e1) {
+				throw new NullPointerException("La lista es nula");
+			} catch (Exception e) {
+				throw new Exception("La lista no existe", e);
+			}
+		} else {
+			throw new NullPointerException("El id es nulo");
+		}
+	}
+	
+
 
 
 }

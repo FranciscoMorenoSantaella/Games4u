@@ -43,6 +43,29 @@ public class UserService {
 		}
 	}
 	
+	
+	public User getUserByUid(String uid) throws Exception, IllegalArgumentException, NullPointerException {
+		if (uid != null) {
+			try {
+				Optional<User> user = repository.getUserByUid(uid);
+				if (user.isPresent()) {
+					return user.get();
+				} else {
+					throw new Exception("El usuario no existe");
+				}
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El id es nulo");
+		}
+	}
+	
+	
+
+	
 	public User createUser(User user) throws Exception, NullPointerException {
 		if (user != null && user.getId()==null) {
 			try {

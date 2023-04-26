@@ -7,12 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.santaellamorenofrancisco.model.ShoppingCart;
+import com.santaellamorenofrancisco.model.User;
 import com.santaellamorenofrancisco.repository.ShoppingCartRepository;
+import com.santaellamorenofrancisco.repository.UserRepository;
 
 @Service
 public class ShoppingCartService {
 	@Autowired
 	ShoppingCartRepository repository;
+	
+	@Autowired 
+	UserRepository userrepository;
 	
 	
 	public List<ShoppingCart> getAllShoppingCarts() throws Exception{
@@ -93,6 +98,32 @@ public class ShoppingCartService {
 			}
 		} else {
 			throw new NullPointerException("El id es nulo");
+		}
+	}
+	
+	public Long getLastShoppingCartIdNotPayedByClientId(Long user_id)
+			throws Exception, IllegalArgumentException, NullPointerException {
+		if (user_id != null) {
+			try {
+				Long shoppingcartid = repository.getLastShoppingCartIdNotPayedByClientId(user_id);
+				if (shoppingcartid == null) {
+					User u = userrepository.findById(user_id).get();
+					ShoppingCart sc = new ShoppingCart();
+					sc.setUser(u);
+					sc.setIspayed(false);
+					sc = createShoppingCart(sc);
+					repository.save(sc);
+					return sc.getId();
+				} else {
+					return shoppingcartid;
+				}
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El id es un objeto nulo");
 		}
 	}
 }

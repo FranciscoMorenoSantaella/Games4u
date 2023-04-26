@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.santaellamorenofrancisco.model.Game;
 import com.santaellamorenofrancisco.model.Order;
 import com.santaellamorenofrancisco.repository.OrderRepository;
 
@@ -42,34 +43,35 @@ public class OrderService {
 		}
 	}
 	
-	public Order createOrder(Order user) throws Exception, NullPointerException {
-		if (user != null && user.getId()==null) {
+	public Order createOrder(Order order) throws Exception, NullPointerException {	
+		System.out.println(order);
+		if (order != null && order.getId()==null) {
 			try {
-				return repository.save(user);
+				return repository.save(order);
 			} catch (Exception e) {
 				throw new Exception(e);
 			}
-		} else if (user != null) {
+		} else if (order != null) {
 
 			try {
-				return updateOrder(user);
+				return updateOrder(order);
 			} catch (Exception e) {
 				throw new Exception(e);
 			}
 		}else {
-			throw new NullPointerException("La orden es nulo");
+			throw new NullPointerException("La orden es nula");
 		}
 	}
 	
-	public Order updateOrder(Order user) throws Exception {
-		if (user != null) {
+	public Order updateOrder(Order order) throws Exception {
+		if (order != null) {
 			try {
-				return repository.save(user);
+				return repository.save(order);
 			} catch (Exception e) {
 				throw new Exception(e);
 			}
 		} else {
-			throw new NullPointerException("La orden es nulo");
+			throw new NullPointerException("La orden es nula");
 		}
 	}
 	
@@ -94,4 +96,25 @@ public class OrderService {
 			throw new NullPointerException("El id es nulo");
 		}
 	}
+	
+	/**
+	 * Metodo que trae una orden segun el id de un carro de la compra
+	 * @param shoppingcart_id es el id del carro de la compra
+	 * @return devuelve una lista de ordenes
+	 * @throws Exception
+	 */
+	public List<Order> getOrderByShoppingCartId(Long shoppingcart_id) throws Exception{
+		if(shoppingcart_id != null) {
+			try {
+				return repository.getOrderByShoppingCartId(shoppingcart_id);
+			} catch (Exception e) {
+				throw new Exception("Error al traer la lista de productos");
+			}
+		}else {
+			throw new NullPointerException("El id es nulo");
+		}
+		
+	}
+	
+	
 }

@@ -73,4 +73,16 @@ public class ShoppingCartController {
 			return new ResponseEntity<ShoppingCart>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@GetMapping("getlastshoppingcartidnotpayedbyclientid/{user_id}")
+	public ResponseEntity<Long> getLastShoppingCartIdNotPayedByClientId(@PathVariable Long user_id) {
+		try {
+			Long shoppingcartid = service.getLastShoppingCartIdNotPayedByClientId(user_id);
+			return new ResponseEntity<Long>(shoppingcartid, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+
+			return new ResponseEntity<Long>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
 }

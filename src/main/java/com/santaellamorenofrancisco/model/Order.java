@@ -33,7 +33,7 @@ public class Order implements Serializable {
 	//@JsonIgnoreProperties(value = { "shoppingcartlist", "product" },allowSetters = true)
 
 	@ManyToOne(cascade = CascadeType.MERGE)
-	@JsonIgnore
+	//@JsonIgnore
 	@JoinColumn(name = "shoppingcart_id", nullable = false)
 	private ShoppingCart shoppingcart;
 	@ManyToOne(cascade = CascadeType.MERGE)	

@@ -24,5 +24,8 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long
 	 * @return el id del carro de la compra
 	 */
 	@Query(nativeQuery = true, value = "SELECT sc.id FROM shoppingcart sc, users u WHERE u.id = sc.user_id AND sc.ispayed = false AND u.id = ?1 ORDER BY sc.id DESC LIMIT 1")
-	public Long getLastShoppingCartIdNotPayedByClientId(@Param("user_id") Long user_id);
+	public Long getLastShoppingCartIdNotPayedByUserId(@Param("user_id") Long user_id);
+	
+	@Query(nativeQuery = true, value = "SELECT COUNT(*) FROM orders_ o, shoppingcart sc WHERE sc.user_id = ?1 AND o.game_id = ?2 AND sc.id = o.shoppingcart_id")
+	public Long isGameInShoppingCart(@Param("user_id") Long user_id, @Param("game_id") Long game_id);
 }

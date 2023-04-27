@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Objeto en el que se define un carro de la compra
  * @author Francisco
@@ -43,7 +45,7 @@ public class ShoppingCart implements Serializable {
 	//@JsonIgnore
 	private User user;
 	@OneToMany(mappedBy = "game", cascade = CascadeType.MERGE)
-	//@JsonIgnore
+	@JsonIgnore
 	private Set<Order> orderlist;
 	
 	public ShoppingCart(Long id, LocalDateTime paydate, Double totalprice, Boolean ispayed, User user,

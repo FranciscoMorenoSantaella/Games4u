@@ -101,11 +101,11 @@ public class ShoppingCartService {
 		}
 	}
 	
-	public Long getLastShoppingCartIdNotPayedByClientId(Long user_id)
+	public Long getLastShoppingCartIdNotPayedByUserId(Long user_id)
 			throws Exception, IllegalArgumentException, NullPointerException {
 		if (user_id != null) {
 			try {
-				Long shoppingcartid = repository.getLastShoppingCartIdNotPayedByClientId(user_id);
+				Long shoppingcartid = repository.getLastShoppingCartIdNotPayedByUserId(user_id);
 				if (shoppingcartid == null) {
 					User u = userrepository.findById(user_id).get();
 					ShoppingCart sc = new ShoppingCart();
@@ -126,4 +126,25 @@ public class ShoppingCartService {
 			throw new NullPointerException("El id es un objeto nulo");
 		}
 	}
+	
+	public Long isGameInShoppingCart (Long user_id, Long game_id) throws Exception, IllegalArgumentException, NullPointerException {
+		if (user_id != null && game_id != null) {
+			try {
+				Long isgame = repository.isGameInShoppingCart(user_id,game_id);
+				if (isgame != null) {
+					return isgame;
+				} else {
+					throw new Exception("El carro de la compra no existe");
+				}
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El id es nulo");
+		}
+	}
+	
+	
 }

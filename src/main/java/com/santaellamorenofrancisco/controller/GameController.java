@@ -91,7 +91,7 @@ public class GameController {
 	 */
 	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping(value = "getgame/{pagenumber}/{pagesize}", method = RequestMethod.GET)
-	public ResponseEntity<Page<Game>> getProductByPage(@PathVariable int pagenumber, @PathVariable int pagesize) {
+	public ResponseEntity<Page<Game>> getGameByPage(@PathVariable int pagenumber, @PathVariable int pagesize) {
 		if (pagenumber >= 0 && pagesize >= 0) {
 			try {
 				Page<Game> pagegames = service.getGameByPage(pagenumber, pagesize);
@@ -104,6 +104,23 @@ public class GameController {
 		}
 
 	}
+	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@RequestMapping(value = "getgamefromlibrary/{pagenumber}/{pagesize}/{user_id}", method = RequestMethod.GET)
+	public ResponseEntity<Page<Game>> getGameFromLibraryPageable(@PathVariable int pagenumber, @PathVariable int pagesize, @PathVariable Long user_id) {
+		if (pagenumber >= 0 && pagesize >= 0) {
+			try {
+				Page<Game> pagegames = service.getGameFromLibraryPageable(pagenumber, pagesize,user_id);
+				return new ResponseEntity<Page<Game>>(pagegames, new HttpHeaders(), HttpStatus.OK);
+			} catch (Exception e) {
+				return new ResponseEntity<Page<Game>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+			}
+		} else {
+			return new ResponseEntity<Page<Game>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+
+	}
+	
 	
 	/**
 	 * Metodo que devuelve una lista de videojuegos según el nombre
@@ -201,6 +218,17 @@ public class GameController {
 			return new ResponseEntity<List<Game>>(gamelist, new HttpHeaders(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<List<Game>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@GetMapping("isgameinlibrary/{user_id}/{game_id}")
+	public ResponseEntity<Long> isGameInLibrary(@PathVariable Long user_id,@PathVariable Long game_id) {
+		try {
+			Long isgame = service.isGameInLibrary(user_id,game_id);
+			return new ResponseEntity<Long>(isgame, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Long>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}
 }

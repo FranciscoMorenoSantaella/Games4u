@@ -46,6 +46,25 @@ public class GameService {
 		}
 	}
 	
+	public Long isGameInLibrary(Long user_id, Long game_id) throws Exception, IllegalArgumentException, NullPointerException {
+		if (user_id != null && game_id !=null) {
+			try {
+				Long isgame = repository.isGameInLibrary(user_id,game_id);
+				if (isgame != null) {
+					return isgame;
+				} else {
+					throw new Exception("El juego no existe");
+				}
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El id es nulo");
+		}
+	}
+	
 	public List<Game> getGamesByPublisher(Long id) throws Exception, IllegalArgumentException, NullPointerException {
 		if (id != null) {
 			try {
@@ -123,6 +142,19 @@ public class GameService {
 				Sort sort = Sort.by(Sort.Direction.ASC, "id");
 				Pageable pageable = PageRequest.of(pagenumber, pagesize, sort);
 				return repository.getGamesByPage(pageable);
+			} catch (Exception e) {
+				throw new Exception("Error en la consulta", e);
+			}
+		} else {
+			throw new Exception("El numero de pagina y/o el limite no puede ser menor que 0");
+		}
+	}
+	
+	public Page<Game> getGameFromLibraryPageable(int pagenumber, int pagesize,Long user_id) throws Exception {
+		if (pagenumber >= 0 && pagesize >= 0) {
+			try {
+				Pageable pageable = PageRequest.of(pagenumber, pagesize);
+				return repository.getGameFromLibraryPageable(pageable,user_id);
 			} catch (Exception e) {
 				throw new Exception("Error en la consulta", e);
 			}

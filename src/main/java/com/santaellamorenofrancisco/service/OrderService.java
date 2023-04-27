@@ -47,6 +47,7 @@ public class OrderService {
 		System.out.println(order);
 		if (order != null && order.getId()==null) {
 			try {
+				System.out.println(order);
 				return repository.save(order);
 			} catch (Exception e) {
 				throw new Exception(e);

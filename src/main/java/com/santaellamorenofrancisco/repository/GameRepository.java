@@ -90,7 +90,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 	@Query(nativeQuery = true, value = "SELECT COUNT(*) FROM games g, library l WHERE g.id = l.game_id AND l.user_id = ?1 AND g.id = ?2")
 	Long isGameInLibrary(@Param("user_id") Long user_id, @Param("game_id") Long game_id);
 	
-	@Query(nativeQuery = true, value = "SELECT g.* FROM library l , games g WHERE l.user_id = ?1 AND g.id = l.game_id")
+	@Query(nativeQuery = true, value = "SELECT g.id,g.description,g.early_access,g.fecha_salida,g.name,g.precio,g.verified,g.user_id FROM library , games g WHERE library.user_id = ?1 AND g.id = library.game_id")
 	Page<Game> getGameFromLibraryPageable(Pageable var1, @Param("user_id") Long user_id);
 	
 }

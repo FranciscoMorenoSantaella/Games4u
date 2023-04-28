@@ -106,7 +106,7 @@ public class GameController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:8080")
-	@RequestMapping(value = "getgamefromlibrary/{pagenumber}/{pagesize}/{user_id}", method = RequestMethod.GET)
+	@RequestMapping(value = "getgamesfromlibrary/{pagenumber}/{pagesize}/{user_id}", method = RequestMethod.GET)
 	public ResponseEntity<Page<Game>> getGameFromLibraryPageable(@PathVariable int pagenumber, @PathVariable int pagesize, @PathVariable Long user_id) {
 		if (pagenumber >= 0 && pagesize >= 0) {
 			try {

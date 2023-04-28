@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Objeto en el que se define un archivo
  * @author Francisco
@@ -36,6 +38,7 @@ public class File implements Serializable {
 	private String url;
 	@Column(name = "executable")
 	private Boolean executable;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "game_id", nullable = false)
 	private Game game;

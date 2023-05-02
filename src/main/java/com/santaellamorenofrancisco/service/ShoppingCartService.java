@@ -146,5 +146,73 @@ public class ShoppingCartService {
 		}
 	}
 	
+	/**
+	 * Metodo que calcula el precio total de los juegos que hay en un carro de la
+	 * compra
+	 * 
+	 * @param shoppingcart_id es el id del carro de la compra del que queremos saber
+	 *                        el precio total de sus juegos
+	 * @return devuelve un Double que es el precio total de los juegos
+	 * @throws Exception
+	 * @throws IllegalArgumentException
+	 * @throws NullPointerException
+	 */
+	public Double getTotalPrice(Long shoppingcart_id) throws Exception, IllegalArgumentException, NullPointerException {
+		if (shoppingcart_id != null) {
+			try {
+				Double totalprice = repository.getTotalPrice(shoppingcart_id);
+				return totalprice;
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El id es nulo");
+		}
+	}
+	
+	/**
+	 * Metodo que sirve para comprar un carro de la compra se resta el saldo del
+	 * cliente segun el precio total del carro y se pone el carro en ispayed = true
+	 * 
+	 * @param user_id       es el id del cliente que va a pagar el carro de la
+	 *                        compra
+	 * @param shoppingcart_id es el id del carro que vamos a compra
+	 * @return un booleano (true si se ha podido comprar o false si no)
+	 * @throws Exception
+	 * @throws IllegalArgumentException
+	 * @throws NullPointerException
+	 */
+	public Boolean payShoppingCart(Long user_id, Long shoppingcart_id)
+			throws Exception, IllegalArgumentException, NullPointerException {
+		Boolean result = false;
+		if (user_id != null && shoppingcart_id != null) {
+			try {
+				Double userbalance = repository.payShoppingCart(shoppingcart_id);
+				ShoppingCart sc = getShoppingCartById(shoppingcart_id);
+				User u = userrepository.findById(user_id).get();
+				if (userbalance >= 0) {
+					u.setBalance(userbalance);
+					userrepository.save(u);
+					updateShoppingCart(sc);
+					sc.setTotalprice(getTotalPrice(shoppingcart_id));
+					sc.setIspayed(true);
+					repository.save(sc);
+					result = true;
+					return result;
+				} else {
+					return result;
+				}
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El id es nulo");
+		}
+
+	}
 	
 }

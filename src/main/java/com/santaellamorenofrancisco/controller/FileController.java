@@ -53,7 +53,7 @@ public class FileController {
 		 */
 		@PostMapping("/upload")
 		public ResponseEntity<FileMessage> uploadFiles(@RequestParam("files") MultipartFile files,
-				@RequestParam("game_id") Long game_id) {
+				@RequestParam("game_id") Long game_id,Boolean executable) {
 			String message = "";
 			try {
 
@@ -63,7 +63,7 @@ public class FileController {
 				if (matcher.matches()) {
 					String uniquename = FileUtils.uniqueFileName();
 					service.save(files, uniquename);
-					service.saveDatabase(files, uniquename, game_id);
+					service.saveDatabase(files, uniquename, game_id,executable);
 					message = "El archivo:" + files.getOriginalFilename();
 					return ResponseEntity.status(HttpStatus.OK).body(new FileMessage(message));
 

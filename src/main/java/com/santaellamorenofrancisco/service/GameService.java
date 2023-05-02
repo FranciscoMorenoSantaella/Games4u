@@ -163,6 +163,19 @@ public class GameService {
 		}
 	}
 	
+	public Page<Game> getGamesFromWishlistPageable(int pagenumber, int pagesize,Long user_id) throws Exception {
+		if (pagenumber >= 0 && pagesize >= 0) {
+			try {
+				Pageable pageable = PageRequest.of(pagenumber, pagesize);
+				return repository.getGamesFromWishlistPageable(pageable,user_id);
+			} catch (Exception e) {
+				throw new Exception("Error en la consulta", e);
+			}
+		} else {
+			throw new Exception("El numero de pagina y/o el limite no puede ser menor que 0");
+		}
+	}
+	
 	public List<Game> searchGameByName(String name) throws Exception{
 		try {
 			List<Game> gamelist = repository.searchGameByName(name);
@@ -184,6 +197,15 @@ public class GameService {
 	public Boolean addGameToLibrary(Long game_id, Long user_id) throws Exception{
 		try {
 		    repository.addGameToLibrary(game_id,user_id);
+			return true;
+		} catch (Exception e) {
+			throw new Exception("No se ha podido realizar la consulta");
+		}
+	}
+	
+	public Boolean addGameToWishlist(Long game_id, Long user_id) throws Exception{
+		try {
+		    repository.addGameToWishlist(game_id,user_id);
 			return true;
 		} catch (Exception e) {
 			throw new Exception("No se ha podido realizar la consulta");

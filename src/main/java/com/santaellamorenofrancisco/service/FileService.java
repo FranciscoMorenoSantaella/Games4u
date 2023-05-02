@@ -64,14 +64,14 @@ public class FileService {
 	 * @param uniquename Es el nombre aleatorio y unico que se ha generado y vamos a
 	 *                   setear el nombre del File con dicho nombre
 	 */
-	public void saveDatabase(MultipartFile file, String uniquename, Long game_id) {
+	public void saveDatabase(MultipartFile file, String uniquename, Long game_id, Boolean executable) {
 		File uploadfile = new File();
 		try {
 			uploadfile.setUrl(root.resolve(uniquename).toString());
 			uploadfile.setOriginalname(file.getOriginalFilename());
 			uploadfile.setUniquename(uniquename + "." + FileUtils.getExtension(file.getOriginalFilename()));
-			System.out.println(game_id);
-			repository.insertFile(uploadfile.getOriginalname(), uploadfile.getUniquename(), uploadfile.getUrl(),
+			uploadfile.setExecutable(executable);
+			repository.insertFile(uploadfile.getOriginalname(),uploadfile.getExecutable(), uploadfile.getUniquename(), uploadfile.getUrl(),
 					game_id);
 		} catch (Exception e) {
 			throw new RuntimeException("No se puede guardar el archivo. Error " + e.getMessage());

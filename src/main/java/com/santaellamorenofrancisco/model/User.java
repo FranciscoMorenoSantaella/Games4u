@@ -47,7 +47,7 @@ public class User implements Serializable {
 	@Column(name = "uid")
 	private String uid;
 	@Column(name = "balance")
-	private Float balance;
+	private Double balance;
 	@JsonIgnore
 	@ManyToMany(mappedBy = "userswishlist")
 	Set<Game> gameswishlist;
@@ -120,11 +120,11 @@ public class User implements Serializable {
 		this.uid = uid;
 	}
 
-	public Float getBalance() {
+	public Double getBalance() {
 		return balance;
 	}
 
-	public void setBalance(Float balance) {
+	public void setBalance(Double balance) {
 		this.balance = balance;
 	}
 

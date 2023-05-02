@@ -121,6 +121,22 @@ public class GameController {
 
 	}
 	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@RequestMapping(value = "getgamesfromwishlist/{pagenumber}/{pagesize}/{user_id}", method = RequestMethod.GET)
+	public ResponseEntity<Page<Game>> getGamesFromWishlistPageable(@PathVariable int pagenumber, @PathVariable int pagesize, @PathVariable Long user_id) {
+		if (pagenumber >= 0 && pagesize >= 0) {
+			try {
+				Page<Game> pagegames = service.getGamesFromWishlistPageable(pagenumber, pagesize,user_id);
+				return new ResponseEntity<Page<Game>>(pagegames, new HttpHeaders(), HttpStatus.OK);
+			} catch (Exception e) {
+				return new ResponseEntity<Page<Game>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+			}
+		} else {
+			return new ResponseEntity<Page<Game>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+
+	}
+	
 	
 	/**
 	 * Metodo que devuelve una lista de videojuegos según el nombre
@@ -199,6 +215,17 @@ public class GameController {
 	public ResponseEntity<Boolean> addGameToLibrary(@PathVariable Long game_id, @PathVariable 	Long user_id) {
 		try {
 			Boolean aux = service.addGameToLibrary(game_id,user_id);
+			return new ResponseEntity<Boolean>(aux, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Boolean>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@GetMapping("addgametowishlist/{game_id}/{user_id}")
+	public ResponseEntity<Boolean> addGameToWishlist(@PathVariable Long game_id, @PathVariable 	Long user_id) {
+		try {
+			Boolean aux = service.addGameToWishlist(game_id,user_id);
 			return new ResponseEntity<Boolean>(aux, new HttpHeaders(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Boolean>(new HttpHeaders(), HttpStatus.BAD_REQUEST);

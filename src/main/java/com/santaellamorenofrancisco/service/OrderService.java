@@ -44,7 +44,6 @@ public class OrderService {
 	}
 	
 	public Order createOrder(Order order) throws Exception, NullPointerException {	
-		System.out.println(order);
 		if (order != null && order.getId()==null) {
 			try {
 				System.out.println(order);
@@ -114,7 +113,6 @@ public class OrderService {
 		}else {
 			throw new NullPointerException("El id es nulo");
 		}
-		
 	}
 	
 	

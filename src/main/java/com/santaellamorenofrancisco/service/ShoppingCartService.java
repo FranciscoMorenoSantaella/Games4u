@@ -1,5 +1,6 @@
 package com.santaellamorenofrancisco.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -190,12 +191,14 @@ public class ShoppingCartService {
 		if (user_id != null && shoppingcart_id != null) {
 			try {
 				Double userbalance = repository.payShoppingCart(shoppingcart_id);
+				System.out.println(userbalance);
 				ShoppingCart sc = getShoppingCartById(shoppingcart_id);
 				User u = userrepository.findById(user_id).get();
 				if (userbalance >= 0) {
 					u.setBalance(userbalance);
 					userrepository.save(u);
 					updateShoppingCart(sc);
+					sc.setPaydate(LocalDate.now());
 					sc.setTotalprice(getTotalPrice(shoppingcart_id));
 					sc.setIspayed(true);
 					repository.save(sc);

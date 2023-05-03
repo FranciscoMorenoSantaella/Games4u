@@ -2,6 +2,7 @@ package com.santaellamorenofrancisco.model;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -34,7 +35,7 @@ public class ShoppingCart implements Serializable {
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "pay_date")
-	private LocalDateTime paydate;
+	private LocalDate paydate;
 	@Column(name = "total_price")
 	private Double totalprice;
 	@Column(name = "ispayed")
@@ -48,7 +49,7 @@ public class ShoppingCart implements Serializable {
 	@JsonIgnore
 	private Set<Order> orderlist;
 	
-	public ShoppingCart(Long id, LocalDateTime paydate, Double totalprice, Boolean ispayed, User user,
+	public ShoppingCart(Long id, LocalDate paydate, Double totalprice, Boolean ispayed, User user,
 			Set<Order> orderlist) {
 		super();
 		this.id = id;
@@ -71,11 +72,11 @@ public class ShoppingCart implements Serializable {
 		this.id = id;
 	}
 
-	public LocalDateTime getPaydate() {
+	public LocalDate getPaydate() {
 		return paydate;
 	}
 
-	public void setPaydate(LocalDateTime paydate) {
+	public void setPaydate(LocalDate paydate) {
 		this.paydate = paydate;
 	}
 

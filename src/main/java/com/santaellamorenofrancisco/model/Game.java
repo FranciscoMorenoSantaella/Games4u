@@ -66,7 +66,7 @@ public class Game implements Serializable {
 	Set<Platform> platforms;
 	@ManyToOne
     @JoinColumn(name="user_id", nullable=false)
-	private User publisher;
+	private User publisher;	
 	
 	@OneToMany(mappedBy="game")
     private Set<File> files;

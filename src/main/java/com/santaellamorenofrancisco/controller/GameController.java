@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.santaellamorenofrancisco.model.Game;
@@ -62,6 +64,31 @@ public class GameController {
 		} catch (Exception e) {
 
 			return new ResponseEntity<Game>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@GetMapping("getsalesbygameid/{game_id}")
+	public ResponseEntity<Long> getSalesByGameId(@PathVariable Long game_id) {
+		try {
+			Long sells = service.getSalesByGameId(game_id);
+			return new ResponseEntity<Long>(sells, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+
+			return new ResponseEntity<Long>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@GetMapping("getsalesbypaydate/{game_id}")
+	public ResponseEntity<List<Object[]>> getSalesByPayDate(@PathVariable Long game_id) {
+		try {
+			List<Object[]> sells = service.getSalesByPayDate(game_id);
+			return new ResponseEntity<List<Object[]>>(sells, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+
+			return new ResponseEntity<List<Object[]>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -254,6 +281,17 @@ public class GameController {
 		try {
 			Long isgame = service.isGameInLibrary(user_id,game_id);
 			return new ResponseEntity<Long>(isgame, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Long>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@PutMapping("setgameveriefied/{game_id}")
+	public ResponseEntity<Long> setGameVerified(@PathVariable Long game_id){
+		try {
+			Long verified = service.setGameVerified(game_id);
+			return new ResponseEntity<Long>(verified, new HttpHeaders(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Long>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}

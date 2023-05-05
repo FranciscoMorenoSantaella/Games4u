@@ -96,6 +96,8 @@ public class UserService {
 		}
 	}
 	
+	
+	
 	public void deleteUserById(Long id) throws NullPointerException, IllegalArgumentException, Exception {
 		if (id != null) {
 			Optional<User> userlist;

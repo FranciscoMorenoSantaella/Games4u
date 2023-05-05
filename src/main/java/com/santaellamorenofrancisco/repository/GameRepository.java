@@ -60,7 +60,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 	 * @param user_id es el id del usuario del que se quieren ver el numero de ventas de sus juegos
 	 * @return un entero que es el numero de ventas de sus juegos
 	 */
-	@Query(nativeQuery = true, value = "SELECT COUNT(*) FROM games g, library l WHERE g.user_id = ?1 AND g.id = l.game_id")
+	@Query(nativeQuery = true, value = "SELECT COUNT(*) FROM games g, library l WHERE g.user_id = ?1 AND g.id = l.game_id AND l.user_id NOT IN (?1)")
 	Long countSellGames(@Param("user_id") Long user_id);
 	
 	/**
@@ -105,5 +105,16 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 	
 	@Query(nativeQuery = true, value = "SELECT g.id,g.description,g.early_access,g.fecha_salida,g.name,g.precio,g.verified,g.user_id FROM wishlists , games g WHERE wishlists.user_id = ?1 AND g.id = wishlists.game_id")
 	Page<Game> getGamesFromWishlistPageable(Pageable var1, @Param("user_id") Long user_id);
+	
+	@Query(nativeQuery = true, value = "SELECT COUNT(*) AS ventas, pay_date FROM shoppingcart sc, games g, orders_ o WHERE o.shoppingcart_id = sc.id AND g.id = ?1 AND o.game_id = g.id GROUP BY pay_date")
+	List<Object[]> getSalesByPayDate(@Param("game_id") Long game_id);
+	
+	@Query(nativeQuery = true, value = "SELECT COUNT(*) AS ventas FROM shoppingcart sc, games g, orders_ o WHERE o.shoppingcart_id = sc.id AND g.id = ?1 AND o.game_id = g.id AND sc.ispayed=true")
+	Long getSalesByGameId(@Param("game_id") Long game_id);
+	
+	@Modifying
+	@Query(nativeQuery = true, value = "UPDATE games SET verified = true WHERE id = ?1")
+	Long setGameVerified(@Param("game_id") Long game_id);
+	
 	
 }

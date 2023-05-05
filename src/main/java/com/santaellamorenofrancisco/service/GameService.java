@@ -46,6 +46,22 @@ public class GameService {
 		}
 	}
 	
+	public Long getSalesByGameId(Long game_id) throws Exception, IllegalArgumentException, NullPointerException {
+		if (game_id != null) {
+			try {
+				Long sells = repository.getSalesByGameId(game_id);
+				return sells;
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El id es nulo");
+		}
+	}
+	
+	
 	public Long isGameInLibrary(Long user_id, Long game_id) throws Exception, IllegalArgumentException, NullPointerException {
 		if (user_id != null && game_id !=null) {
 			try {
@@ -65,6 +81,19 @@ public class GameService {
 		}
 	}
 	
+	public Long setGameVerified(Long game_id) throws Exception {
+		if (game_id != null) {
+			try {
+				System.out.println(game_id);
+				return repository.setGameVerified(game_id);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El usuario es nulo");
+		}
+	}
+	
 	public List<Game> getGamesByPublisher(Long id) throws Exception, IllegalArgumentException, NullPointerException {
 		if (id != null) {
 			try {
@@ -73,6 +102,25 @@ public class GameService {
 					return gamelist;
 				} else {
 					throw new Exception("No ha publicado juegos");
+				}
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El id es nulo");
+		}
+	}
+	
+	public List<Object[]> getSalesByPayDate(Long game_id) throws Exception, IllegalArgumentException, NullPointerException {
+		if (game_id != null) {
+			try {
+				List<Object[]> sells = repository.getSalesByPayDate(game_id);
+				if (sells != null) {
+					return sells;
+				} else {
+					throw new Exception("No hay ventas");
 				}
 			} catch (IllegalArgumentException e) {
 				throw new IllegalArgumentException(e);

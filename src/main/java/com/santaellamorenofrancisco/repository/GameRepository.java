@@ -111,10 +111,16 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 	
 	@Query(nativeQuery = true, value = "SELECT COUNT(*) AS ventas FROM shoppingcart sc, games g, orders_ o WHERE o.shoppingcart_id = sc.id AND g.id = ?1 AND o.game_id = g.id AND sc.ispayed=true")
 	Long getSalesByGameId(@Param("game_id") Long game_id);
+
+	@Query(nativeQuery = true, value = "SELECT COUNT(*) FROM library WHERE user_id = ?1")
+	Long haveGamesInLibrary(@Param("user_id") Long user_id);
 	
-	@Modifying
-	@Query(nativeQuery = true, value = "UPDATE games SET verified = true WHERE id = ?1")
-	Long setGameVerified(@Param("game_id") Long game_id);
+	@Query(nativeQuery = true, value = "SELECT * FROM games WHERE verified = 0 AND verified IS NOT NULL")
+	Page<Game> getGamesNotVerified(Pageable var1);
+	
+	@Query(nativeQuery = true, value = "SELECT u.email FROM users u, games g WHERE g.user_id = u.id AND g.id = ?1")
+	String getPublisherByGameId(@Param("game_id") Long game_id);
+	
 	
 	
 }

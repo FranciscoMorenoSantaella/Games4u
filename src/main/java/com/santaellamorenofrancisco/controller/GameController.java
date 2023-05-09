@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,6 +65,29 @@ public class GameController {
 		} catch (Exception e) {
 
 			return new ResponseEntity<Game>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@GetMapping("getpublisherbygameid/{game_id}")
+	public ResponseEntity<String> getPublisherByGameId(@PathVariable Long game_id) {
+		try {
+			String email = service.getPublisherByGameId(game_id);
+			return new ResponseEntity<String>(email, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@GetMapping("havegamesinlibrary/{user_id}")
+	public ResponseEntity<Long> haveGamesInLibrary(@PathVariable Long user_id) {
+		try {
+			Long count = service.haveGamesInLibrary(user_id);
+			return new ResponseEntity<Long>(count, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+
+			return new ResponseEntity<Long>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -122,6 +146,21 @@ public class GameController {
 		if (pagenumber >= 0 && pagesize >= 0) {
 			try {
 				Page<Game> pagegames = service.getGameByPage(pagenumber, pagesize);
+				return new ResponseEntity<Page<Game>>(pagegames, new HttpHeaders(), HttpStatus.OK);
+			} catch (Exception e) {
+				return new ResponseEntity<Page<Game>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+			}
+		} else {
+			return new ResponseEntity<Page<Game>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@RequestMapping(value = "getgamesnotverified/{pagenumber}/{pagesize}", method = RequestMethod.GET)
+	public ResponseEntity<Page<Game>> getGamesNotVerifiedPageable(@PathVariable int pagenumber, @PathVariable int pagesize) {
+		if (pagenumber >= 0 && pagesize >= 0) {
+			try {
+				Page<Game> pagegames = service.getGamesNotVerifiedPageable(pagenumber, pagesize);
 				return new ResponseEntity<Page<Game>>(pagegames, new HttpHeaders(), HttpStatus.OK);
 			} catch (Exception e) {
 				return new ResponseEntity<Page<Game>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
@@ -249,6 +288,29 @@ public class GameController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:8080")
+	@PutMapping("setgameverified/{game_id}")
+	public ResponseEntity<Boolean> setGameVerified(@PathVariable Long game_id) {
+		try {
+			Boolean aux = service.setGameVerified(game_id);
+			return new ResponseEntity<Boolean>(aux, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Boolean>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@PutMapping("setgameverifiednull/{game_id}")
+	public ResponseEntity<Boolean> setGameVerifiedNull(@PathVariable Long game_id) {
+		try {
+			Boolean aux = service.setGameVerfiedNull(game_id);
+			return new ResponseEntity<Boolean>(aux, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Boolean>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	
+	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping("addgametowishlist/{game_id}/{user_id}")
 	public ResponseEntity<Boolean> addGameToWishlist(@PathVariable Long game_id, @PathVariable 	Long user_id) {
 		try {
@@ -286,14 +348,4 @@ public class GameController {
 		}
 	}
 	
-	@CrossOrigin(origins = "http://localhost:8080")
-	@PutMapping("setgameveriefied/{game_id}")
-	public ResponseEntity<Long> setGameVerified(@PathVariable Long game_id){
-		try {
-			Long verified = service.setGameVerified(game_id);
-			return new ResponseEntity<Long>(verified, new HttpHeaders(), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<Long>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
-		}
-	}
 }

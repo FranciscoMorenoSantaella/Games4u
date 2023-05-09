@@ -46,11 +46,47 @@ public class GameService {
 		}
 	}
 	
+	public String getPublisherByGameId(Long game_id) throws Exception, IllegalArgumentException, NullPointerException {
+		if (game_id != null) {
+			try {
+				String email = repository.getPublisherByGameId(game_id);
+				if (email != null) {
+					return email;
+				} else {
+					throw new Exception("El email existe");
+				}
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El id es nulo");
+		}
+	}
+	
+	
+	
 	public Long getSalesByGameId(Long game_id) throws Exception, IllegalArgumentException, NullPointerException {
 		if (game_id != null) {
 			try {
 				Long sells = repository.getSalesByGameId(game_id);
 				return sells;
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El id es nulo");
+		}
+	}
+	
+	public Long haveGamesInLibrary(Long user_id) throws Exception, IllegalArgumentException, NullPointerException {
+		if (user_id != null) {
+			try {
+				Long count = repository.haveGamesInLibrary(user_id);
+				return count;
 			} catch (IllegalArgumentException e) {
 				throw new IllegalArgumentException(e);
 			} catch (Exception e) {
@@ -81,18 +117,48 @@ public class GameService {
 		}
 	}
 	
-	public Long setGameVerified(Long game_id) throws Exception {
-		if (game_id != null) {
+	public Boolean setGameVerified(Long game_id) throws Exception {
+		if (game_id !=null) {
 			try {
-				System.out.println(game_id);
-				return repository.setGameVerified(game_id);
+				boolean aux = false;
+				Game game = repository.getById(game_id);
+				game.setVerified(true);
+				game = repository.save(game);
+				if(game !=null) {
+					aux = true;
+					return aux;
+				}else {
+					return aux;
+				}
 			} catch (Exception e) {
 				throw new Exception(e);
 			}
 		} else {
-			throw new NullPointerException("El usuario es nulo");
+			throw new NullPointerException("El juego es nulo");
 		}
 	}
+	
+	public Boolean setGameVerfiedNull(Long game_id) throws Exception {
+		if (game_id !=null) {
+			try {
+				boolean aux = false;
+				Game game = repository.getById(game_id);
+				game.setVerified(null);
+				game = repository.save(game);
+				if(game !=null) {
+					aux = true;
+					return aux;
+				}else {
+					return aux;
+				}
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El juego es nulo");
+		}
+	}
+	
 	
 	public List<Game> getGamesByPublisher(Long id) throws Exception, IllegalArgumentException, NullPointerException {
 		if (id != null) {
@@ -224,6 +290,19 @@ public class GameService {
 		}
 	}
 	
+	public Page<Game> getGamesNotVerifiedPageable(int pagenumber, int pagesize) throws Exception {
+		if (pagenumber >= 0 && pagesize >= 0) {
+			try {
+				Pageable pageable = PageRequest.of(pagenumber, pagesize);
+				return repository.getGamesNotVerified(pageable);
+			} catch (Exception e) {
+				throw new Exception("Error en la consulta", e);
+			}
+		} else {
+			throw new Exception("El numero de pagina y/o el limite no puede ser menor que 0");
+		}
+	}
+	
 	public List<Game> searchGameByName(String name) throws Exception{
 		try {
 			List<Game> gamelist = repository.searchGameByName(name);
@@ -289,6 +368,8 @@ public class GameService {
 			throw new NullPointerException("El id es nulo");
 		}
 	}
+	
+
 	
 
 

@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.santaellamorenofrancisco.model.ShoppingCart;
 import com.santaellamorenofrancisco.model.User;
@@ -185,6 +186,7 @@ public class ShoppingCartService {
 	 * @throws IllegalArgumentException
 	 * @throws NullPointerException
 	 */
+	@Transactional
 	public Boolean payShoppingCart(Long user_id, Long shoppingcart_id)
 			throws Exception, IllegalArgumentException, NullPointerException {
 		Boolean result = false;

@@ -43,11 +43,11 @@ public class Game implements Serializable {
 	@Column(name = "precio")
 	private float precio;
 	@Column(name = "early_access")
-	private boolean earlyaccess;
+	private Boolean earlyaccess;
 	@Column(name = "fecha_salida")
 	private Date fechasalida;
 	@Column(name = "verified")
-	private boolean verified;
+	private Boolean verified;
 	@ManyToMany
 	@JoinTable(
 	  name = "library", 
@@ -71,7 +71,7 @@ public class Game implements Serializable {
 	@OneToMany(mappedBy="game")
     private Set<File> files;
 
-	public Game(Long id, String name, String description, float precio, boolean earlyaccess, Date fechasalida,
+	public Game(Long id, String name, String description, float precio, Boolean earlyaccess, Date fechasalida,
 			Set<User> userslibrary, Set<User> userswishlist, Set<Genre> genreslist, Set<Platform> platforms,
 			User publisher, Set<File> files) {
 		super();
@@ -125,11 +125,11 @@ public class Game implements Serializable {
 		this.precio = precio;
 	}
 
-	public boolean isEarlyaccess() {
+	public Boolean isEarlyaccess() {
 		return earlyaccess;
 	}
 
-	public void setEarlyaccess(boolean earlyaccess) {
+	public void setEarlyaccess(Boolean earlyaccess) {
 		this.earlyaccess = earlyaccess;
 	}
 
@@ -190,11 +190,11 @@ public class Game implements Serializable {
 	}
 	
 
-	public boolean isVerified() {
+	public Boolean isVerified() {
 		return verified;
 	}
 
-	public void setVerified(boolean verified) {
+	public void setVerified(Boolean verified) {
 		this.verified = verified;
 	}
 

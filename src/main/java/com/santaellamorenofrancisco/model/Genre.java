@@ -31,7 +31,7 @@ public class Genre implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	@Column(name = "name")
+	@Column(name = "name",unique = true, nullable = false)
 	private String name;
 	@JsonIgnore
 	@ManyToMany

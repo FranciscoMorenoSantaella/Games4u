@@ -154,7 +154,7 @@ public class GameController {
 			return new ResponseEntity<Page<Game>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping(value = "getgamesnotverified/{pagenumber}/{pagesize}", method = RequestMethod.GET)
 	public ResponseEntity<Page<Game>> getGamesNotVerifiedPageable(@PathVariable int pagenumber, @PathVariable int pagesize) {

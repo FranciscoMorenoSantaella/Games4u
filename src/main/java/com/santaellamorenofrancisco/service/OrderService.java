@@ -97,6 +97,23 @@ public class OrderService {
 		}
 	}
 	
+	public int deleteOrder(Long game_id, Long shoppingcart_id) throws NullPointerException, IllegalArgumentException, Exception {
+		if (game_id != null && shoppingcart_id != null) {
+			try {
+				int rows = repository.deleteOrder(game_id, shoppingcart_id);
+				return rows;
+			} catch (IllegalArgumentException e1) {
+				throw new IllegalArgumentException("La orden no existe");
+			} catch (NullPointerException e1) {
+				throw new NullPointerException("La orden es nulo");
+			} catch (Exception e) {
+				throw new Exception("La orden no existe", e);
+			}
+		} else {
+			throw new NullPointerException("El id es nulo");
+		}
+	}
+	
 	/**
 	 * Metodo que trae una orden segun el id de un carro de la compra
 	 * @param shoppingcart_id es el id del carro de la compra

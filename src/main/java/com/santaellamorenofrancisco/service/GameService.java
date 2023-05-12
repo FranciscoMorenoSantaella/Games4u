@@ -250,6 +250,23 @@ public class GameService {
 		}
 	}
 	
+	public int deleteGameFromWishlist(Long game_id, Long user_id) throws NullPointerException, IllegalArgumentException, Exception {
+		if (game_id != null && user_id != null) {
+			try {
+				int rows = repository.deleteFromWishList(game_id, user_id);
+				return rows;
+			} catch (IllegalArgumentException e1) {
+				throw new IllegalArgumentException("El juego no existe");
+			} catch (NullPointerException e1) {
+				throw new NullPointerException("El juego es nulo");
+			} catch (Exception e) {
+				throw new Exception("El juego no existe", e);
+			}
+		} else {
+			throw new NullPointerException("El id del juego o del usuario es nulo");
+		}
+	}
+	
 	public Page<Game> getGameByPage(int pagenumber, int pagesize) throws Exception {
 		if (pagenumber >= 0 && pagesize >= 0) {
 			try {
@@ -370,6 +387,7 @@ public class GameService {
 	}
 	
 
+	
 	
 
 

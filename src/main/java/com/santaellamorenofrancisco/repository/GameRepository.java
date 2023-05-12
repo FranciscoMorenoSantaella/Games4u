@@ -121,6 +121,12 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 	@Query(nativeQuery = true, value = "SELECT u.email FROM users u, games g WHERE g.user_id = u.id AND g.id = ?1")
 	String getPublisherByGameId(@Param("game_id") Long game_id);
 	
+	@Modifying
+	@Query(nativeQuery = true, value = "DELETE FROM wishlists WHERE game_id = ?1 AND user_id = ?2")
+	int deleteFromWishList(@Param("game_id") Long game_id, @Param("user_id") Long user_id);
+
+	
+	
 	
 	
 }

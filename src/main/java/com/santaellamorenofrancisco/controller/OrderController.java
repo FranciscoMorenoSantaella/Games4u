@@ -74,6 +74,17 @@ public class OrderController {
 		}
 	}
 	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@DeleteMapping("/deleteorder/{game_id}/{shoppingcart_id}")
+	public ResponseEntity<Integer> deleteOrderByid(@PathVariable Long game_id, @PathVariable Long shoppingcart_id) {
+		try {
+			int rows = service.deleteOrder(game_id,shoppingcart_id);
+			return new ResponseEntity<Integer>(rows,new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Integer>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	/**
 	 * Metodo que devuelve una lista de ordenes segun el id del carro de la compra
 	 * 

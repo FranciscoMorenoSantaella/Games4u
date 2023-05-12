@@ -2,6 +2,7 @@ package com.santaellamorenofrancisco.model;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -57,6 +58,8 @@ public class User implements Serializable {
 	@JsonIgnore
 	@ManyToMany(mappedBy = "userslibrary")
 	Set<Game> gameslibrary;
+	@OneToMany(mappedBy = "user")
+	private List<Code> codes;
 	// Cada usuario tiene una wishlist (una wishlist tiene uno o varios juegos una
 	// wishlist pertenece solo a un usuario)
 	// Un usuario tiene una o varias ordenes y una orden pertenece a un solo usuario
@@ -150,6 +153,14 @@ public class User implements Serializable {
 
 	public void setGameslibrary(Set<Game> gameslibrary) {
 		this.gameslibrary = gameslibrary;
+	}
+
+	public List<Code> getCodes() {
+		return codes;
+	}
+
+	public void setCodes(List<Code> codes) {
+		this.codes = codes;
 	}
 
 	@Override

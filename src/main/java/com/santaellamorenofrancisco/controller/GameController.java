@@ -134,6 +134,17 @@ public class GameController {
 		}
 	}
 	
+	@CrossOrigin(origins = "http://localhost:8080")
+	@DeleteMapping("deletefromwishlist/{game_id}/{user_id}")
+	public ResponseEntity<Integer> deleteGameFromWishList(@PathVariable Long game_id, @PathVariable Long user_id) {
+		try {
+			int rows = service.deleteGameFromWishlist(game_id,user_id);
+			return new ResponseEntity<Integer>(rows,new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Integer>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	/**
 	 * Metodo que sirve para traer una pagina de juegos
 	 * @param pagenumber es el número de la página que queremos traer

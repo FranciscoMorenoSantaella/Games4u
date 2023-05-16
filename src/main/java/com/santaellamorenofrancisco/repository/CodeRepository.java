@@ -22,4 +22,7 @@ public interface CodeRepository extends JpaRepository<Code, Long> {
 
 	@Query(nativeQuery = true, value = "SELECT balance FROM codes WHERE code = ?1")
 	public Double getCodeBalance(@Param("code") String code);
+	
+	@Query(nativeQuery = true, value = "SELECT * FROM codes WHERE code = ?1")
+	public Code getCodeByCode(@Param("code") String code);
 }

@@ -40,12 +40,12 @@ public class CodeController {
 	
 	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping(path = "/redeemcode/{user_id}/{code}")
-	public ResponseEntity<Boolean> redeemCode(@PathVariable Long user_id, @PathVariable String code) {
+	public ResponseEntity<Code> redeemCode(@PathVariable Long user_id, @PathVariable String code) {
 		try {
-			Boolean aux = service.redeemCode(user_id,code);
-			return new ResponseEntity<Boolean>(aux, new HttpHeaders(), HttpStatus.OK);
+			Code thecode = service.redeemCode(user_id,code);
+			return new ResponseEntity<Code>(thecode, new HttpHeaders(), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Boolean>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Code>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	

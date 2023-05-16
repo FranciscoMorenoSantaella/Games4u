@@ -49,26 +49,27 @@ public class CodeService {
     }
     
     @Transactional
-	public Boolean redeemCode(Long user_id, String code) throws Exception, IllegalArgumentException, NullPointerException {
-		Boolean aux = false;
+	public Code redeemCode(Long user_id, String code) throws Exception, IllegalArgumentException, NullPointerException {
 		if (user_id != null && code !=null) {
 			try {
-				int row = repository.redeemCode(user_id,code);
-				if(row == 1) {
-					Double balance = getCodeBalance(code);
-					System.out.println(balance);
-					Optional<User> user = userRepository.findById(user_id);
-					if(user.isPresent()) {
-						balance += user.get().getBalance();
-						user.get().setBalance(balance);
-						User user2 = userRepository.save(user.get());
-						if(user2 != null) {
-							aux = true;
-							return aux;
+				Code thecode = repository.getCodeByCode(code);
+				if(thecode.getUsed() == null || thecode.getUsed() == false) {
+					int row = repository.redeemCode(user_id,code);
+					if(row == 1) {
+						Double balance = getCodeBalance(code);
+						Optional<User> user = userRepository.findById(user_id);
+						if(user.isPresent()) {
+							balance += user.get().getBalance();
+							user.get().setBalance(balance);
+							User user2 = userRepository.save(user.get());
+							thecode.setUsed(true);
+							repository.save(thecode);
+							if(user2 != null) {
+								return thecode;
+							}
 						}
 					}
-				}
-				return aux;
+				}				
 			} catch (IllegalArgumentException e) {
 				throw new IllegalArgumentException(e);
 			} catch (Exception e) {
@@ -77,5 +78,7 @@ public class CodeService {
 		} else {
 			throw new NullPointerException("El id es nulo");
 		}
+		return new Code();
+
 	}
 }

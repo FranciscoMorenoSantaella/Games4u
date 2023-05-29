@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.santaellamorenofrancisco.model.Code;
@@ -28,8 +30,8 @@ public class CodeController {
 	CodeService service;
 	
 	@CrossOrigin(origins = "http://localhost:8080")
-	@GetMapping(path = "/generatecode/{balance}")
-	public ResponseEntity<Code> generateCode(@PathVariable BigDecimal balance) {
+	@PostMapping(path = "/generatecode")
+	public ResponseEntity<Code> generateCode(@RequestParam BigDecimal balance) {
 		try {
 			Code code = service.generarCode(balance);
 			return new ResponseEntity<Code>(code, new HttpHeaders(), HttpStatus.OK);
@@ -39,15 +41,16 @@ public class CodeController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:8080")
-	@GetMapping(path = "/redeemcode/{user_id}/{code}")
-	public ResponseEntity<Code> redeemCode(@PathVariable Long user_id, @PathVariable String code) {
-		try {
-			Code thecode = service.redeemCode(user_id,code);
-			return new ResponseEntity<Code>(thecode, new HttpHeaders(), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<Code>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
-		}
+	@PostMapping(path = "/redeemcode")
+	public ResponseEntity<Code> redeemCode(@RequestParam("user_id") Long user_id, @RequestParam("code") String code) {
+	    try {
+	        Code thecode = service.redeemCode(user_id, code);
+	        return new ResponseEntity<>(thecode, new HttpHeaders(), HttpStatus.OK);
+	    } catch (Exception e) {
+	        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+	    }
 	}
+
 	
 	
 }

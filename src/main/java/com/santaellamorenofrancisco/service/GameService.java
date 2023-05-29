@@ -7,16 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Pageable;
 
 import com.santaellamorenofrancisco.model.Game;
 import com.santaellamorenofrancisco.repository.GameRepository;
+import com.santaellamorenofrancisco.repository.UserRatingRepository;
 
 @Service
 public class GameService {
 	@Autowired
 	GameRepository repository;
+	@Autowired
+	UserRatingRepository urrepository;
 	
 	public List<Game> getAllGames() throws Exception{
 		try {
@@ -27,12 +31,14 @@ public class GameService {
 		}
 	}
 	
+	@Transactional
 	public Game getGameById(Long id) throws Exception, IllegalArgumentException, NullPointerException {
 		if (id != null) {
 			try {
-				Optional<Game> gamelist = repository.findById(id);
-				if (gamelist.isPresent()) {
-					return gamelist.get();
+				Optional<Game> game = repository.findById(id);
+				game.get().setValoracion(urrepository.selectAvgRatingByGameId(id));
+				if (game.isPresent()) {
+					return game.get();
 				} else {
 					throw new Exception("El juego no existe");
 				}
@@ -385,11 +391,4 @@ public class GameService {
 			throw new NullPointerException("El id es nulo");
 		}
 	}
-	
-
-	
-	
-
-
-
 }

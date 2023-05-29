@@ -62,14 +62,23 @@ public class CodeService {
 							balance += user.get().getBalance();
 							user.get().setBalance(balance);
 							User user2 = userRepository.save(user.get());
+							thecode.setUser(user2);
+							Code thecode2 = new Code();
+							thecode2.setId(thecode.getId());
+							thecode2.setUsed(thecode.getUsed());
+							thecode2.setUser(thecode.getUser());
+							thecode2.setCode(thecode.getCode());
+							thecode2.setBalance(thecode.getBalance());
 							thecode.setUsed(true);
 							repository.save(thecode);
 							if(user2 != null) {
-								return thecode;
+								return thecode2;
 							}
 						}
 					}
-				}				
+				}else {
+					return thecode;
+				}
 			} catch (IllegalArgumentException e) {
 				throw new IllegalArgumentException(e);
 			} catch (Exception e) {

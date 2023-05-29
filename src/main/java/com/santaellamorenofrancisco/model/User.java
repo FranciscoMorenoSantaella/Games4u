@@ -4,6 +4,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
+import java.util.ArrayList;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -58,8 +59,12 @@ public class User implements Serializable {
 	@JsonIgnore
 	@ManyToMany(mappedBy = "userslibrary")
 	Set<Game> gameslibrary;
+	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Code> codes;
+	@JsonIgnore
+	@OneToMany(mappedBy = "user")
+    private List<UserRating> ratings = new ArrayList<>();
 	// Cada usuario tiene una wishlist (una wishlist tiene uno o varios juegos una
 	// wishlist pertenece solo a un usuario)
 	// Un usuario tiene una o varias ordenes y una orden pertenece a un solo usuario

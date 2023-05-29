@@ -4,6 +4,9 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
+
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +21,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 /**
@@ -48,6 +54,8 @@ public class Game implements Serializable {
 	private Date fechasalida;
 	@Column(name = "verified")
 	private Boolean verified;
+	@Column(name = "valoracion")
+	private Integer valoracion;
 	@ManyToMany
 	@JoinTable(
 	  name = "library", 
@@ -68,12 +76,18 @@ public class Game implements Serializable {
     @JoinColumn(name="user_id", nullable=false)
 	private User publisher;	
 	
+	@OneToMany(mappedBy = "game")
+	@JsonManagedReference
+	private List<UserRating> ratings = new ArrayList<>();
+	
 	@OneToMany(mappedBy="game")
     private Set<File> files;
+	
+
 
 	public Game(Long id, String name, String description, float precio, Boolean earlyaccess, Date fechasalida,
-			Set<User> userslibrary, Set<User> userswishlist, Set<Genre> genreslist, Set<Platform> platforms,
-			User publisher, Set<File> files) {
+			Boolean verified, Integer valoracion, Set<User> userslibrary, Set<User> userswishlist,
+			Set<Genre> genreslist, Set<Platform> platforms, User publisher, List<UserRating> ratings, Set<File> files) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -81,11 +95,14 @@ public class Game implements Serializable {
 		this.precio = precio;
 		this.earlyaccess = earlyaccess;
 		this.fechasalida = fechasalida;
+		this.verified = verified;
+		this.valoracion = valoracion;
 		this.userslibrary = userslibrary;
 		this.userswishlist = userswishlist;
 		this.genreslist = genreslist;
 		this.platforms = platforms;
 		this.publisher = publisher;
+		this.ratings = ratings;
 		this.files = files;
 	}
 
@@ -197,12 +214,38 @@ public class Game implements Serializable {
 	public void setVerified(Boolean verified) {
 		this.verified = verified;
 	}
+	
+	
+
+	public Integer getValoracion() {
+		return valoracion;
+	}
+
+	public void setValoracion(Integer valoracion) {
+		this.valoracion = valoracion;
+	}
+
+	public List<UserRating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(List<UserRating> ratings) {
+		this.ratings = ratings;
+	}
+
+	public Boolean getEarlyaccess() {
+		return earlyaccess;
+	}
+
+	public Boolean getVerified() {
+		return verified;
+	}
 
 	@Override
 	public String toString() {
 		return "Game [id=" + id + ", name=" + name + ", description=" + description + ", precio=" + precio
 				+ ", earlyaccess=" + earlyaccess + ", fechasalida=" + fechasalida + ", verified=" + verified
-				+ ", userslibrary=" + userslibrary + ", userswishlist=" + userswishlist + ", genreslist=" + genreslist
-				+ ", platforms=" + platforms + ", publisher=" + publisher + ", files=" + files + "]";
+				+ ", valoracion=" + valoracion + "]";
 	}
+	
 }

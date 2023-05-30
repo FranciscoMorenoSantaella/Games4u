@@ -1,5 +1,6 @@
 package com.santaellamorenofrancisco.repository;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -25,6 +26,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query(nativeQuery = true, value = "SELECT * FROM users WHERE uid = ?1")
 	Optional<User> getUserByUid(@Param("uid") String uid);
 	
-	
+	@Modifying
+	@Query(nativeQuery = true, value = "UPDATE users SET balance = balance + ?1 WHERE id = ?2")
+	public int addBalance(@Param("balance") BigDecimal balance,@Param("user_id") Long user_id);
 
 }

@@ -1,5 +1,6 @@
 package com.santaellamorenofrancisco.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,6 +89,18 @@ public class UserService {
 		if (user != null) {
 			try {
 				return repository.save(user);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El usuario es nulo");
+		}
+	}
+	
+	public int addBalance(Long user_id, BigDecimal balance) throws Exception {
+		if (user_id != null && balance != null) {
+			try {
+				return repository.addBalance(balance,user_id);
 			} catch (Exception e) {
 				throw new Exception(e);
 			}

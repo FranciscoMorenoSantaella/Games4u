@@ -16,13 +16,15 @@ import com.paypal.api.payments.PaymentExecution;
 import com.paypal.api.payments.RedirectUrls;
 import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.APIContext;
-import com.paypal.base.rest.PayPalRESTException;
 
 @Service
 public class PaypalService {
 	
 	@Autowired
 	private APIContext apiContext;
+	
+	@Autowired
+	private UserService userservice;
 	
 	
 	public Payment createPayment(
@@ -31,21 +33,19 @@ public class PaypalService {
 			String method,
 			String intent,
 			String description, 
+			Long user_id,
 			String cancelUrl, 
-			String successUrl) throws PayPalRESTException{
+			String successUrl) throws Exception{
 		Amount amount = new Amount();
 		amount.setCurrency(currency);
-		BigDecimal total2 = new BigDecimal("10.00");
+		BigDecimal total2 = new BigDecimal(total);
 		amount.setTotal(total2.setScale(2, RoundingMode.HALF_UP).toString());
-
-		System.out.println(amount);
 		Transaction transaction = new Transaction();
 		transaction.setDescription(description);
 		transaction.setAmount(amount);
 		
 		List<Transaction> transactions = new ArrayList<>();
 		transactions.add(transaction);
-		System.out.println(transaction);
 		Payer payer = new Payer();
 		payer.setPaymentMethod(method.toString());
 
@@ -57,16 +57,24 @@ public class PaypalService {
 		redirectUrls.setCancelUrl(cancelUrl);
 		redirectUrls.setReturnUrl(successUrl);
 		payment.setRedirectUrls(redirectUrls);
-		System.out.println(payment);
 		return payment.create(apiContext);
 	}
 	
-	public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{
+	public Payment executePayment(String paymentId, String payerId, Long user_id) throws Exception{
 		Payment payment = new Payment();
 		payment.setId(paymentId);
+
+		//
+		
 		PaymentExecution paymentExecute = new PaymentExecution();
 		paymentExecute.setPayerId(payerId);
-		return payment.execute(apiContext, paymentExecute);
+		System.out.println("payment:" +payment);
+		System.out.println("apicontext:" +apiContext);
+		System.out.println("Paymenexecute:" + paymentExecute);
+		
+		Payment executedPayment = payment.execute(apiContext, paymentExecute);
+		userservice.addBalance(user_id,new BigDecimal(executedPayment.getTransactions().get(0).getAmount().getTotal()));
+		return executedPayment;
 	}
 
 }

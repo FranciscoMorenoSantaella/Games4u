@@ -33,7 +33,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 	 *             traera los productos (del 11 al 21)
 	 * @return una pagina de productos
 	 */
-	@Query(nativeQuery = true, value = "SELECT * FROM games g WHERE verified = 1 ORDER BY name asc")
+	@Query(nativeQuery = true, value = "SELECT * FROM games g WHERE verified = true ORDER BY name asc")
 	Page<Game> getGamesByPage(Pageable var1);
 
 	/**
@@ -140,7 +140,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 	@Query(nativeQuery = true, value = "SELECT COUNT(*) FROM library WHERE user_id = ?1")
 	Long haveGamesInLibrary(@Param("user_id") Long user_id);
 
-	@Query(nativeQuery = true, value = "SELECT * FROM games WHERE verified = 0 AND verified IS NOT NULL")
+	@Query(nativeQuery = true, value = "SELECT * FROM games WHERE verified = false AND verified IS NOT NULL")
 	Page<Game> getGamesNotVerified(Pageable var1);
 
 	@Query(nativeQuery = true, value = "SELECT u.email FROM users u, games g WHERE g.user_id = u.id AND g.id = ?1")

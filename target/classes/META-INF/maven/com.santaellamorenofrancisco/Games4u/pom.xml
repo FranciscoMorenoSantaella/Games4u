@@ -15,7 +15,7 @@
 	<name>Games4u</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>1.8</java.version>
 		    <maven.compiler.source>1.8</maven.compiler.source>
 	</properties>
 	<dependencies>

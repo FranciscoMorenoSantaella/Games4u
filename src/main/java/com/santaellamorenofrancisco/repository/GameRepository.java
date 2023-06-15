@@ -134,8 +134,8 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 	@Query(nativeQuery = true, value = "SELECT COUNT(*) AS ventas, pay_date FROM shoppingcart sc, games g, orders_ o WHERE o.shoppingcart_id = sc.id AND g.id = ?1 AND o.game_id = g.id AND sc.ispayed = true GROUP BY pay_date")
 	List<Object[]> getSalesByPayDate(@Param("game_id") Long game_id);
 
-	@Query(nativeQuery = true, value = "SELECT COUNT(*) AS ventas FROM shoppingcart sc, games g, orders_ o WHERE o.shoppingcart_id = sc.id AND g.id = ?1 AND o.game_id = g.id AND sc.ispayed=true")
-	Long getSalesByGameId(@Param("game_id") Long game_id);
+	@Query(nativeQuery = true, value = "SELECT COUNT(*) AS ventas FROM shoppingcart sc, games g, orders_ o WHERE o.shoppingcart_id = sc.id AND g.id = ?1 AND o.game_id = g.id AND sc.ispayed=true AND  g.publisher NOT IN (?2)")
+	Long getSalesByGameId(@Param("game_id") Long game_id, @Param("user_id") Long user_id);
 
 	@Query(nativeQuery = true, value = "SELECT COUNT(*) FROM library WHERE user_id = ?1")
 	Long haveGamesInLibrary(@Param("user_id") Long user_id);
@@ -145,6 +145,9 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
 	@Query(nativeQuery = true, value = "SELECT u.email FROM users u, games g WHERE g.user_id = u.id AND g.id = ?1")
 	String getPublisherByGameId(@Param("game_id") Long game_id);
+	
+	@Query(nativeQuery = true, value = "SELECT u.id FROM users u, games g WHERE g.user_id = u.id AND g.id = ?1")
+	Long getPublisherIdByGameId(@Param("game_id") Long game_id);
 
 	@Modifying
 	@Query(nativeQuery = true, value = "DELETE FROM wishlists WHERE game_id = ?1 AND user_id = ?2")

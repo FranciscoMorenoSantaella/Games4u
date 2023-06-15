@@ -73,11 +73,26 @@ public class GameService {
 	
 	
 	
-	public Long getSalesByGameId(Long game_id) throws Exception, IllegalArgumentException, NullPointerException {
+	public Long getSalesByGameId(Long game_id, Long user_id) throws Exception, IllegalArgumentException, NullPointerException {
+		if (game_id != null && user_id != null) {
+			try {
+				Long sells = repository.getSalesByGameId(game_id,user_id);
+				return sells;
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El id es nulo");
+		}
+	}
+	
+	public Long getPublisherIdByGameId(Long game_id) throws Exception, IllegalArgumentException, NullPointerException {
 		if (game_id != null) {
 			try {
-				Long sells = repository.getSalesByGameId(game_id);
-				return sells;
+				Long publisher = repository.getPublisherIdByGameId(game_id);
+				return publisher;
 			} catch (IllegalArgumentException e) {
 				throw new IllegalArgumentException(e);
 			} catch (Exception e) {

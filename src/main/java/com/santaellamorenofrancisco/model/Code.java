@@ -1,5 +1,6 @@
 package com.santaellamorenofrancisco.model;
 
+import java.io.Serial;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -14,6 +15,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "codes")
 public class Code {
+	@Serial
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

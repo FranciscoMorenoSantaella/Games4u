@@ -300,6 +300,19 @@ public class GameService {
 		}
 	}
 	
+	public Page<Game> findByGenrePageable(int pagenumber, int pagesize,Long genre_id) throws Exception {
+		if (pagenumber >= 0 && pagesize >= 0) {
+			try {
+				Pageable pageable = PageRequest.of(pagenumber, pagesize);
+				return repository.findByGenrePageable(genre_id,pageable);
+			} catch (Exception e) {
+				throw new Exception("Error en la consulta", e);
+			}
+		} else {
+			throw new Exception("El numero de pagina y/o el limite no puede ser menor que 0");
+		}
+	}
+	
 	public Page<Game> getGamesFromWishlistPageable(int pagenumber, int pagesize,Long user_id) throws Exception {
 		if (pagenumber >= 0 && pagesize >= 0) {
 			try {
@@ -391,4 +404,6 @@ public class GameService {
 			throw new NullPointerException("El id es nulo");
 		}
 	}
+	
+	
 }

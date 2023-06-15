@@ -68,9 +68,19 @@ public class Game implements Serializable {
 	  joinColumns = @JoinColumn(name = "game_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "user_id"))
 	  Set<User> userswishlist;
-	@ManyToMany(mappedBy = "gameslist")
+	@ManyToMany
+	@JoinTable(
+			name= "games_genres",
+			joinColumns = @JoinColumn(name="game_id"),
+			inverseJoinColumns = @JoinColumn(name="genre_id"))
 	Set<Genre> genreslist;
-	@ManyToMany(mappedBy = "gamesplatforms")
+	
+	
+	@ManyToMany
+	@JoinTable(
+			name= "games_platforms",
+			joinColumns = @JoinColumn(name="game_id"),
+			inverseJoinColumns = @JoinColumn(name="platform_id"))
 	Set<Platform> platforms;
 	@ManyToOne
     @JoinColumn(name="user_id", nullable=false)
@@ -118,11 +128,11 @@ public class Game implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
+	public String getname() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setname(String name) {
 		this.name = name;
 	}
 

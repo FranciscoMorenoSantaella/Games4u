@@ -34,12 +34,8 @@ public class Genre implements Serializable {
 	@Column(name = "name",unique = true, nullable = false)
 	private String name;
 	@JsonIgnore
-	@ManyToMany
-	@JoinTable(
-	  name = "games_genres", 
-	  joinColumns = @JoinColumn(name = "genres_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "games_id"))
-	  Set<Game> gameslist;
+	@ManyToMany(mappedBy = "genreslist")
+	Set<Game> gameslist;
 	
 	public Genre(Long id, String name, Set<Game> gameslist) {
 		super();

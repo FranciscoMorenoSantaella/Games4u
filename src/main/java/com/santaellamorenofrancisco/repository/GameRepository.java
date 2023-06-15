@@ -122,6 +122,10 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
 	@Query(nativeQuery = true, value = "SELECT g.*, ur.valoracion as ratings FROM games g JOIN Library l ON g.id = l.game_id LEFT JOIN users_ratings ur ON ur.game_id = g.id AND ur.user_id = :user_id WHERE l.user_id = :user_id")
 	Page<Game> getGameFromLibraryPageable(Pageable var1, @Param("user_id") Long user_id);
+	
+	@Query(nativeQuery = true, value="SELECT games.* FROM games, games_genres WHERE games.id = games_genres.game_id AND games_genres.genre_id =:genre_id ")
+	Page<Game> findByGenrePageable(@Param("genre_id") Long genre_id, Pageable var1);
+	    
 
 
 	@Query(nativeQuery = true, value = "SELECT g.* FROM wishlists , games g WHERE wishlists.user_id = ?1 AND g.id = wishlists.game_id")

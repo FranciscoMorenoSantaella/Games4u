@@ -1,6 +1,9 @@
 package com.santaellamorenofrancisco.controller;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,8 +21,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.santaellamorenofrancisco.model.File;
+import com.santaellamorenofrancisco.model.FileMessage;
 import com.santaellamorenofrancisco.model.Game;
+import com.santaellamorenofrancisco.model.Genre;
+import com.santaellamorenofrancisco.model.Platform;
+import com.santaellamorenofrancisco.model.User;
+import com.santaellamorenofrancisco.repository.FileRepository;
+import com.santaellamorenofrancisco.repository.GameRepository;
+import com.santaellamorenofrancisco.repository.GenreRepository;
+import com.santaellamorenofrancisco.repository.PlatformRepository;
+import com.santaellamorenofrancisco.repository.UserRepository;
 import com.santaellamorenofrancisco.service.GameService;
 
 @RestController
@@ -29,6 +43,18 @@ import com.santaellamorenofrancisco.service.GameService;
 public class GameController {
 	@Autowired
 	GameService service;
+	@Autowired
+	GameRepository gamerepository;
+	@Autowired
+	GenreRepository genrerepository;
+	@Autowired
+	FileRepository filerepository;
+	@Autowired
+	PlatformRepository platformrepository;
+	@Autowired
+	UserRepository userrepository;
+	@Autowired
+	FileController filecontroller;
 	
 	/**
 	 * Metodo que devuelve una lista de juegos
@@ -199,6 +225,22 @@ public class GameController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:8080")
+	@RequestMapping(value = "findbygenre/{pagenumber}/{pagesize}/{genre_id}", method = RequestMethod.GET)
+	public ResponseEntity<Page<Game>> findByGenrePageable(@PathVariable int pagenumber, @PathVariable int pagesize, @PathVariable Long genre_id) {
+		if (pagenumber >= 0 && pagesize >= 0) {
+			try {
+				Page<Game> pagegames = service.findByGenrePageable(pagenumber, pagesize,genre_id);
+				return new ResponseEntity<Page<Game>>(pagegames, new HttpHeaders(), HttpStatus.OK);
+			} catch (Exception e) {
+				return new ResponseEntity<Page<Game>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+			}
+		} else {
+			return new ResponseEntity<Page<Game>>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
+
+	}
+	
+	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping(value = "getgamesfromwishlist/{pagenumber}/{pagesize}/{user_id}", method = RequestMethod.GET)
 	public ResponseEntity<Page<Game>> getGamesFromWishlistPageable(@PathVariable int pagenumber, @PathVariable int pagesize, @PathVariable Long user_id) {
 		if (pagenumber >= 0 && pagesize >= 0) {
@@ -358,5 +400,46 @@ public class GameController {
 			return new ResponseEntity<Long>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}
+		
+	@CrossOrigin(origins = "http://localhost:8080")
+	@PostMapping(value ="creategame")
+	public ResponseEntity<Game> createGame(@RequestParam("name") String name,
+	                                       @RequestParam("description") String description,
+	                                       @RequestParam("price") Float price,
+	                                       @RequestParam("genre") List<Long> genre_id,
+	                                       @RequestParam("platform") List<Long> platform_id,
+	                                       @RequestParam("user_id") Long user_id,
+	                                       @RequestParam("executable") MultipartFile executable,
+	                                       @RequestParam("image") MultipartFile image) {
+		List<Genre> genre = genrerepository.findAllById(genre_id);
+	    List<Platform> platformlist = platformrepository.findAllById(platform_id);
+	    Set<Genre> genreslist = new HashSet<>(genre);
+	    Set<Platform> platforms = new HashSet<>(platformlist);
+	    Optional<User> useroptional = userrepository.findById(user_id);
+	    User user = useroptional.orElse(null);
+	    if (user == null) {
+	        return ResponseEntity.badRequest().build();
+	    }
+
+
+
+	    Game game = new Game();
+	    game.setname(name);
+	    game.setDescription(description);
+	    game.setPrecio(price);
+	    game.setGenreslist(genreslist);
+	    game.setPublisher(user);
+	    // game.setFiles();
+	    game.setPlatforms(platforms);
+	    System.out.println(game.getGenreslist());
+	    
+	    Game savedgame = gamerepository.save(game);
+	    filecontroller.uploadFiles(executable, savedgame.getId(), true);
+	    filecontroller.uploadFiles(image, savedgame.getId(), false);
+	    return ResponseEntity.ok(savedgame);
+	}
+
+	
+	
 	
 }

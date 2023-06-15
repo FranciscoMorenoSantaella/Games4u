@@ -34,8 +34,7 @@ public class Platform implements Serializable {
 	@Column(name = "name",unique = true, nullable = false)
 	private String name;
 	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "games_platforms", joinColumns = @JoinColumn(name = "platform_id"), inverseJoinColumns = @JoinColumn(name = "game_id"))
+	@ManyToMany(mappedBy = "platforms")
 	Set<Game> gamesplatforms;
 
 	public Platform(Long id, String name, Set<Game> gamesplatforms) {

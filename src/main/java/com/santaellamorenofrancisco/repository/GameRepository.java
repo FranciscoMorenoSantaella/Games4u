@@ -83,7 +83,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 	 *         exito
 	 */
 	@Modifying
-	@Query(nativeQuery = true, value = "INSERT INTO library ('game_id', 'user_id') VALUES (?1, ?2)")
+	@Query(nativeQuery = true, value = "INSERT INTO library (game_id, user_id) VALUES (?1, ?2)")
 	int addGameToLibrary(@Param("game_id") Long game_id, @Param("user_id") Long user_id);
 
 	/**
@@ -95,7 +95,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 	 *         exito
 	 */
 	@Modifying
-	@Query(nativeQuery = true, value = "INSERT INTO `wishlists` (`game_id`, `user_id`) VALUES (?1, ?2)")
+	@Query(nativeQuery = true, value = "INSERT INTO wishlists (game_id, user_id) VALUES (?1, ?2)")
 	int addGameToWishlist(@Param("game_id") Long game_id, @Param("user_id") Long user_id);
 
 	/**

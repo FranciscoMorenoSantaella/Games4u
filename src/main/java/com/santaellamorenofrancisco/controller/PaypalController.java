@@ -36,8 +36,8 @@ public class PaypalController {
     public ResponseEntity<?> payment(@RequestBody Pay pay) throws Exception {
         try {
             Payment payment = service.createPayment(pay.getPrice(), pay.getCurrency(), pay.getMethod(),
-                pay.getIntent(), pay.getDescription(), pay.getUser_id(), "http://localhost:8080/" + CANCEL_URL,
-                "http://localhost:8080/" + SUCCESS_URL + "?user_id=" + pay.getUser_id());
+                pay.getIntent(), pay.getDescription(), pay.getUser_id(), "https://games4u-62a8f.web.app/" + CANCEL_URL,
+                "https://games4u-62a8f.web.app/" + SUCCESS_URL + "?user_id=" + pay.getUser_id());
             for (Links link : payment.getLinks()) {
                 if (link.getRel().equals("approval_url")) {
                     return ResponseEntity.status(HttpStatus.OK).body(link.getHref());

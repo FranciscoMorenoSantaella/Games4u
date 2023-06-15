@@ -52,7 +52,7 @@ public class PaypalController {
     @GetMapping(value = CANCEL_URL)
     public ResponseEntity<?> cancelPay() {
     	return ResponseEntity.status(HttpStatus.FOUND)
-                .header("Location", "http://localhost:4200/perfil/?message=Pago cancelado&success=false")
+                .header("Location", "https://games4u-62a8f.web.app/perfil/?message=Pago cancelado&success=false")
                 .build();
     }
 
@@ -64,7 +64,7 @@ public class PaypalController {
             System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")) {
             	return ResponseEntity.status(HttpStatus.FOUND)
-                        .header("Location", "http://localhost:4200/perfil/?message=Pago realizado correctamente&success=true")
+                        .header("Location", "https://games4u-62a8f.web.app/perfil/?message=Pago realizado correctamente&success=true")
                         .build();
             }
         } catch (PayPalRESTException e) {

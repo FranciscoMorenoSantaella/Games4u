@@ -118,10 +118,10 @@ public class GameController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:8080")
-	@GetMapping("getsalesbygameid/{game_id}")
-	public ResponseEntity<Long> getSalesByGameId(@PathVariable Long game_id, @PathVariable Long user_id) {
+	@GetMapping("getsalesbygameid/{game_id}{publisher}")
+	public ResponseEntity<Long> getSalesByGameId(@PathVariable Long game_id, @PathVariable Long publisher) {
 		try {
-			Long sells = service.getSalesByGameId(game_id, user_id);
+			Long sells = service.getSalesByGameId(game_id, publisher);
 			return new ResponseEntity<Long>(sells, new HttpHeaders(), HttpStatus.OK);
 		} catch (Exception e) {
 

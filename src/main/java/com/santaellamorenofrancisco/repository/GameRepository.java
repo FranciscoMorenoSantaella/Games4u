@@ -134,8 +134,8 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 	@Query(nativeQuery = true, value = "SELECT COUNT(*) AS ventas, pay_date FROM shoppingcart sc, games g, orders_ o WHERE o.shoppingcart_id = sc.id AND g.id = ?1 AND o.game_id = g.id AND sc.ispayed = true GROUP BY pay_date")
 	List<Object[]> getSalesByPayDate(@Param("game_id") Long game_id);
 
-	@Query(nativeQuery = true, value = "SELECT COUNT(*) AS ventas FROM shoppingcart sc, games g, orders_ o WHERE o.shoppingcart_id = sc.id AND g.id = ?1 AND o.game_id = g.id AND sc.ispayed=true AND  g.user_id NOT IN (?2)")
-	Long getSalesByGameId(@Param("game_id") Long game_id, @Param("user_id") Long user_id);
+	@Query(nativeQuery = true, value = "SELECT COUNT(*) AS ventas FROM shoppingcart sc JOIN orders_ o ON o.shoppingcart_id = sc.id JOIN games g ON o.game_id = g.id WHERE sc.ispayed = true AND g.id = ?1 AND sc.user_id <> g.user_id;")
+	Long getSalesByGameId(@Param("game_id") Long game_id);
 
 	@Query(nativeQuery = true, value = "SELECT COUNT(*) FROM library WHERE user_id = ?1")
 	Long haveGamesInLibrary(@Param("user_id") Long user_id);

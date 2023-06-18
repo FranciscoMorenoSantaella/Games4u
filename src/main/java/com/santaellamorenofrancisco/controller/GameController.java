@@ -2,6 +2,7 @@ package com.santaellamorenofrancisco.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -54,7 +55,7 @@ public class GameController {
 	@Autowired
 	UserRepository userrepository;
 	@Autowired
-	FileController filecontroller;
+	GoogleDriveController googledrivecontroller;
 	
 	/**
 	 * Metodo que devuelve una lista de juegos
@@ -423,7 +424,7 @@ public class GameController {
 	                                       @RequestParam("platform") List<Long> platform_id,
 	                                       @RequestParam("user_id") Long user_id,
 	                                       @RequestParam("executable") MultipartFile executable,
-	                                       @RequestParam("image") MultipartFile image) {
+	                                       @RequestParam("image") MultipartFile image) throws IOException {
 		List<Genre> genre = genrerepository.findAllById(genre_id);
 	    List<Platform> platformlist = platformrepository.findAllById(platform_id);
 	    Set<Genre> genreslist = new HashSet<>(genre);
@@ -447,8 +448,8 @@ public class GameController {
 	    System.out.println(game.getGenreslist());
 	    
 	    Game savedgame = gamerepository.save(game);
-	    filecontroller.uploadFiles(executable, savedgame.getId(), true);
-	    filecontroller.uploadFiles(image, savedgame.getId(), false);
+	    googledrivecontroller.uploadFile(executable, savedgame.getId(), true);
+	    googledrivecontroller.uploadFile(image, savedgame.getId(), false);
 	    return ResponseEntity.ok(savedgame);
 	}
 

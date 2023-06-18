@@ -36,7 +36,7 @@ public class GoogleDriveController {
         // Delete the temporary file
         tempFile.delete();
 
-        return "File uploaded successfully. ID: " + uploadedFile.getId();
+        return "File uploaded successfully. ID: " + uploadedFile.getId() + uploadedFile.getName();
     }
 }
 

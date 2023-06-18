@@ -28,7 +28,7 @@ public class GoogleDriveCredentialsConfig {
     @Bean
     public Drive drive() throws IOException, GeneralSecurityException {
         GoogleCredentials credentials = GoogleCredentials.fromStream(
-                getClass().getResourceAsStream(CREDENTIALS_FILE_PATH)
+                getClass().getResourceAsStream("/games4u-backend-f4ea2133dc38.json")
         ).createScoped(Collections.singleton(DriveScopes.DRIVE));
 
         HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
@@ -39,6 +39,7 @@ public class GoogleDriveCredentialsConfig {
         return drive;
     }
 }
+
 
 
 

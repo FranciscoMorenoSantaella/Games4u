@@ -50,24 +50,27 @@ public class GoogleDriveController {
 			Matcher matcher = pattern.matcher(files.getOriginalFilename());
 
 			if (matcher.matches()) {
+				  File fileMetadata = new File();
+			        fileMetadata.setName(FileUtils.uniqueFileName());
+			        fileMetadata.setParents(Collections.singletonList(folderId));
+			        
+			        java.io.File tempFile = java.io.File.createTempFile("temp", null);
+			        files.transferTo(tempFile);
+			        FileContent mediaContent = new FileContent(files.getContentType(), tempFile);
+			        File uploadedFile = drive.files().create(fileMetadata, mediaContent)
+			                .setFields("id")
+			                .execute();
+
+			        // Delete the temporary file
+			        tempFile.delete();
+				    String imageUrl = getImageUrl(uploadedFile.getId());
 				String uniquename = FileUtils.uniqueFileName();
 				System.out.println(uniquename);
-				service.saveDatabase(files, uniquename, game_id,executable);
+				service.saveDatabase(files, uniquename, game_id,executable,imageUrl);
 				System.out.println("Guardo en la base de datos");
+		
 			      // Upload the file to Google Drive
-		        File fileMetadata = new File();
-		        fileMetadata.setName(FileUtils.uniqueFileName());
-		        fileMetadata.setParents(Collections.singletonList(folderId));
-
-		        java.io.File tempFile = java.io.File.createTempFile("temp", null);
-		        files.transferTo(tempFile);
-		        FileContent mediaContent = new FileContent(files.getContentType(), tempFile);
-		        File uploadedFile = drive.files().create(fileMetadata, mediaContent)
-		                .setFields("id")
-		                .execute();
-
-		        // Delete the temporary file
-		        tempFile.delete();
+		      
 
 		        return "File uploaded successfully. ID: " + uploadedFile.getId();
 
@@ -83,6 +86,9 @@ public class GoogleDriveController {
 
   
     }
+    private String getImageUrl(String fileId) {
+        return "https://drive.google.com/uc?export=view&id=" + fileId;
+    }
 
     // Buscar el ID de la carpeta por nombre
     private String getFolderIdByName(String folderName) throws IOException {
@@ -94,4 +100,6 @@ public class GoogleDriveController {
         }
         return null;
     }
+    
+    
 }

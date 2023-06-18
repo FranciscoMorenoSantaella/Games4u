@@ -4,9 +4,13 @@ import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.santaellamorenofrancisco.model.FileMessage;
+import com.santaellamorenofrancisco.service.FileService;
 import com.santaellamorenofrancisco.utils.FileUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,9 +18,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 public class GoogleDriveController {
+	
+	@Autowired
+	FileService service;
+	private static final String PATTERN = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp|webp))$)";
 
     private final Drive drive;
     private static final String FOLDER_NAME = "g4"; // Nombre de la carpeta
@@ -27,29 +37,50 @@ public class GoogleDriveController {
     }
 
     @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    public String uploadFile(@RequestParam("files") MultipartFile files, @RequestParam("game_id") Long game_id,Boolean executable) throws IOException {
         // Buscar la carpeta por nombre
         String folderId = getFolderIdByName(FOLDER_NAME);
         if (folderId == null) {
             return "Carpeta no encontrada.";
         }
+        
+    	try {
 
-        // Upload the file to Google Drive
-        File fileMetadata = new File();
-        fileMetadata.setName(FileUtils.uniqueFileName());
-        fileMetadata.setParents(Collections.singletonList(folderId));
+			Pattern pattern = Pattern.compile(PATTERN);
+			Matcher matcher = pattern.matcher(files.getOriginalFilename());
 
-        java.io.File tempFile = java.io.File.createTempFile("temp", null);
-        file.transferTo(tempFile);
-        FileContent mediaContent = new FileContent(file.getContentType(), tempFile);
-        File uploadedFile = drive.files().create(fileMetadata, mediaContent)
-                .setFields("id")
-                .execute();
+			if (matcher.matches()) {
+				String uniquename = FileUtils.uniqueFileName();
+				service.save(files, uniquename);
+				service.saveDatabase(files, uniquename, game_id,executable);
+			      // Upload the file to Google Drive
+		        File fileMetadata = new File();
+		        fileMetadata.setName(FileUtils.uniqueFileName());
+		        fileMetadata.setParents(Collections.singletonList(folderId));
 
-        // Delete the temporary file
-        tempFile.delete();
+		        java.io.File tempFile = java.io.File.createTempFile("temp", null);
+		        files.transferTo(tempFile);
+		        FileContent mediaContent = new FileContent(files.getContentType(), tempFile);
+		        File uploadedFile = drive.files().create(fileMetadata, mediaContent)
+		                .setFields("id")
+		                .execute();
 
-        return "File uploaded successfully. ID: " + uploadedFile.getId();
+		        // Delete the temporary file
+		        tempFile.delete();
+
+		        return "File uploaded successfully. ID: " + uploadedFile.getId();
+
+			} else {
+				return "Bad file extension";
+			}
+
+		} catch (Exception e) {
+			return "Error al subir el archivo";
+		}
+        
+        
+
+  
     }
 
     // Buscar el ID de la carpeta por nombre

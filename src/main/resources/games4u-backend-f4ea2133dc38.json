@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "games4u-backend",
+  "private_key_id": "f4ea2133dc38c571696038c264ab75117739ea62",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC5oBUyJ9vqVsXw\nFRoxjJThFB6DsosnHNrbbx6qvjYYINErwF7+pn3mtcdKzr0PjsqoAkExAAlKfEK8\n2YhhfHN+I+K6/ghVTeDZK1S+pBGKglHNJCjDTZoEhHLtYCc/LGmfAky4pdTXS6mL\n3klQhF2hfNeP4ud1xuEe6AK3NbMUg4Cp/o/IEwlITgoJ7IHX9AInHe1M9WLVdQG7\nC9GpbihyKd/Z/drJg5XOuBWoqf48P6MXMXIK8oRvTlrpIGqzXZvARnlZC3dHYDKP\nAM313W2QtPG5cZecdQfVNUEyQDHEnuORFIMYmoKZ/xK34hTNISW75oeG/Q8vaTXI\nIMkNpAtFAgMBAAECggEALdDXAnTnmQi3XMlcmHe+JGrKmE9ofKwo0an03AhMQjrR\nXfbii4BtCVV7Hdn2vKEOIJdD33QGlwmiEEox2Pv2Zp81XlmGlYV+FqQVC+Pjh3gg\neB1xaTkdZ3mIg1HtBfDwleRjqtyVctlUPPdNya+OC6aMbxF+dymyFWaHCxDYRVq/\nOXyI4GfqQutir+ToLdVAW0h5nRueOCrU+mON3QIbisrEv2OTFWGof/xf+AN/PbXS\nVV1dhzCqHVVLCGz84xGMlRyabvfKx5ySuCtyE/mz1At1u9eyTFwa0JvWj7wYLyol\np048YjVVrEPsXd9xIS5e3blJKQ6ag8xOvmWqiQPCyQKBgQDbga3jZvWum//uWD9E\ntoQjCHq9wpxdkb137zNloE3PnD29EmXZ6d6X1i5vA1jnnZWd7ZqOIPkaOUeRXnPP\nPnQde9PTdC+zU4GvLqSmFFF35GOLiFcRtvPnChSGHgEyz9VRmM4IL+PsQk3QnkB7\nehrkjrD5o/TOkN11vqkUoAtwiQKBgQDYfGY9GUFdLRylUmLLmxP1SJ52ljGj0Hte\nbdlwVd4sT3FO87I4SiOMPukjiSSMrPpYW42sWfUGtkZ3SCIBNMUJCFVMNcAT3krk\nthuCidp9/uj+WgHmNaxg06HKWKHlFpQzCIzhOd3HV7wCjq8+t7TdJlqkBrNBw6o+\nFs97UQl93QKBgQCRE8WM/bi1fg+KRTMTxBnTWcBd+OkGAtQaF7N9oJSs+dPoSeed\nPjBLZFjuMGUrOADyD19OPsbFKUR+9NFQETQHZJcdM7ZvLGsTEJ3r0pQBzKZqS2NY\npvXPJt9nwR8DqU+RDZBm4tgeh7gMgPuXYJ2zoAeiB1Y+zIpCTxBLPHgzGQKBgFy1\nmYsc37MpeJUMHScYuIlYmhQq6gM/azXbUT0caNMNCndHQdF9Xo/W+TywpKhiA6wH\nOTrQI3DGapL2nylpEeB2YyEJ+8IGdohPvKRAqQNAQUN8BEg0QCgPOcBQCLT04G6i\ngMKLZ4DQ/8EQndf8EEaNAFAyVl4ZjzSbzCsBX1E5AoGBAKshYcKEZPss3iIIHPgv\niKyA+tGigGDTpGbRPxpmbgf+cnmtiuE8qg/dScG9a7Fkq+t7W/j7+iWhkCX5JBLY\nmIdi9b47vTu6J0tY0QpeC0lOI6CsSMMKdiUAVu0yBF0WyyduUTuKW51tAQRDewVm\nY79Q2yoKwYm13PrCOarWDIyQ\n-----END PRIVATE KEY-----\n",
+  "client_email": "games4u@games4u-backend.iam.gserviceaccount.com",
+  "client_id": "116698731477733090503",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/games4u%40games4u-backend.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

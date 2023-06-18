@@ -51,8 +51,9 @@ public class GoogleDriveController {
 
 			if (matcher.matches()) {
 				String uniquename = FileUtils.uniqueFileName();
-				service.save(files, uniquename);
+				System.out.println(uniquename);
 				service.saveDatabase(files, uniquename, game_id,executable);
+				System.out.println("Guardo en la base de datos");
 			      // Upload the file to Google Drive
 		        File fileMetadata = new File();
 		        fileMetadata.setName(FileUtils.uniqueFileName());

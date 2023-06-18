@@ -37,7 +37,7 @@ public class GoogleDriveController {
     }
 
     @PostMapping("/upload")
-    public String uploadFile(@RequestParam("files") MultipartFile files, @RequestParam("game_id") Long game_id,Boolean executable) throws IOException {
+    public String uploadFile(@RequestParam("files") MultipartFile files, @RequestParam("game_id") Long game_id,@RequestParam("executable") Boolean executable) throws IOException {
         // Buscar la carpeta por nombre
         String folderId = getFolderIdByName(FOLDER_NAME);
         if (folderId == null) {

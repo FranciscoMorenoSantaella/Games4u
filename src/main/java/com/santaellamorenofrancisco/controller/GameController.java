@@ -443,6 +443,7 @@ public class GameController {
 	    game.setPrecio(price);
 	    game.setGenreslist(genreslist);
 	    game.setPublisher(user);
+	    game.setVerified(false);
 	    // game.setFiles();
 	    game.setPlatforms(platforms);
 	    System.out.println(game.getGenreslist());

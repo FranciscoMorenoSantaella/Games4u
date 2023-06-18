@@ -7,11 +7,12 @@ import com.santaellamorenofrancisco.utils.FileUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -27,23 +28,41 @@ public class GoogleDriveController {
     }
 
     @PostMapping("/upload")
-    public String uploadFile(@RequestPart("file") MultipartFile file) throws IOException {
+    public String uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         if (file != null && !file.isEmpty()) {
+            // Obtain the original filename
+            String originalFilename = file.getOriginalFilename();
+            
             // Create the file metadata
             File fileMetadata = new File();
             fileMetadata.setName(FileUtils.uniqueFileName());
-
+            
             // Create a temporary file to store the uploaded file
             Path tempFilePath = Files.createTempFile("temp", null);
-            Files.copy(file.getInputStream(), tempFilePath, StandardCopyOption.REPLACE_EXISTING);
-
-            // Upload the file to Google Drive
-            File uploadedFile = drive.files().create(fileMetadata, new FileContent(file.getContentType(), tempFilePath.toFile()))
+            
+            // Copy the content of the uploaded file to the temporary file
+            try (InputStream inputStream = file.getInputStream()) {
+                Files.copy(inputStream, tempFilePath, StandardCopyOption.REPLACE_EXISTING);
+            }
+            
+            // Create a java.io.File object from the temporary file
+            java.io.File tempFile = tempFilePath.toFile();
+            
+            // Create the file content with the specified type and File object
+            FileContent mediaContent = new FileContent(file.getContentType(), tempFile);
+            
+            // Create the file in Google Drive
+            File uploadedFile = drive.files().create(fileMetadata, mediaContent)
                     .setFields("id")
                     .execute();
 
+            System.out.println(uploadedFile);
+            
+            System.out.println(tempFile);
+            
+            System.out.println(tempFilePath);
             // Delete the temporary file
-            Files.delete(tempFilePath);
+            tempFile.delete();
 
             return "File uploaded successfully. ID: " + uploadedFile.getId() + ", Name: " + uploadedFile.getName();
         } else {

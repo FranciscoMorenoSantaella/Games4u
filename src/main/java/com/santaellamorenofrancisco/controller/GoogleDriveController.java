@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import com.santaellamorenofrancisco.utils.FileUtils;
 
 import java.io.IOException;
 
@@ -29,7 +30,7 @@ public class GoogleDriveController {
             
             // Crea los metadatos del archivo
             File fileMetadata = new File();
-            fileMetadata.setName(originalFilename);
+            fileMetadata.setName(FileUtils.uniqueFileName());
             
             // Crea un archivo temporal para transferir el contenido del archivo subido
             java.io.File tempFile = java.io.File.createTempFile("temp", null);

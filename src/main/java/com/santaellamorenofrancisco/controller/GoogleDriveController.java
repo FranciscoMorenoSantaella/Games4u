@@ -23,21 +23,32 @@ public class GoogleDriveController {
 
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        // Upload the file to Google Drive
-        File fileMetadata = new File();
-        fileMetadata.setName(file.getOriginalFilename());
-        java.io.File tempFile = java.io.File.createTempFile("temp", null);
-        file.transferTo(tempFile);
-        FileContent mediaContent = new FileContent(file.getContentType(), tempFile);
-        File uploadedFile = drive.files().create(fileMetadata, mediaContent)
-                .setFields("id")
-                .execute();
+        if (file != null && !file.isEmpty()) {
+            // Obtiene el nombre original del archivo
+            String originalFilename = file.getOriginalFilename();
+            
+            // Crea los metadatos del archivo
+            File fileMetadata = new File();
+            fileMetadata.setName(originalFilename);
+            
+            // Crea un archivo temporal para transferir el contenido del archivo subido
+            java.io.File tempFile = java.io.File.createTempFile("temp", null);
+            file.transferTo(tempFile);
+            
+            // Crea el contenido del archivo para la subida
+            FileContent mediaContent = new FileContent(file.getContentType(), tempFile);
+            
+            // Crea el archivo en Google Drive
+            File uploadedFile = drive.files().create(fileMetadata, mediaContent)
+                    .setFields("id")
+                    .execute();
 
-        // Delete the temporary file
-        tempFile.delete();
+            // Borra el archivo temporal
+            tempFile.delete();
 
-        return "File uploaded successfully. ID: " + uploadedFile.getId() + uploadedFile.getName();
+            return "File uploaded successfully. ID: " + uploadedFile.getId() + ", Name: " + uploadedFile.getName();
+        } else {
+            return "No file selected for upload.";
+        }
     }
 }
-
-

@@ -40,7 +40,7 @@ public class FileController {
 		@Autowired
 		FileService service;
 
-		private static final String PATTERN = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp|webp|exe|zip))$)";
+		private static final String PATTERN = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp|webp))$)";
 
 		/**
 		 * Metodo que sirve para guardar Files en la carpeta root y guardar los datos de

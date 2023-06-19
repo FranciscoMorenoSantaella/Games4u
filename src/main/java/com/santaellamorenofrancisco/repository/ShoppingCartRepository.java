@@ -3,6 +3,7 @@ package com.santaellamorenofrancisco.repository;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -53,4 +54,6 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long
 	 */
 	@Query(nativeQuery = true, value = "SELECT (u.balance) - SUM(g.precio) FROM games g, orders_ o,  shoppingcart sc, users u WHERE g.id = o.game_id AND sc.id = o.shoppingcart_id AND sc.id = ?1 AND sc.ispayed = false AND u.id = sc.user_id GROUP BY u.id")
 	public Double payShoppingCart(@Param("shoppingcart_id") Long shoppingcart_id);
+	
+	
 }

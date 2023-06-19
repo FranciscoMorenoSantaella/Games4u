@@ -35,9 +35,9 @@ public interface FileRepository extends JpaRepository<File, Long> {
 	 * @param game_id es el id del producto al que esta vinculada la filesn
 	 */
 	@Modifying
-	@Query(value = "insert into files (originalname,executable,uniquename,url,game_id) VALUES (:originalname,:executable,:uniquename,:url,:game_id)", nativeQuery = true)
+	@Query(value = "insert into files (originalname,executable,uniquename,url,game_id,driveid) VALUES (:originalname,:executable,:uniquename,:url,:game_id,:driveid)", nativeQuery = true)
 	void insertFile(@Param("originalname") String originalname,@Param("executable") Boolean executable, @Param("uniquename") String uniquename,
-			@Param("url") String url, @Param("game_id") Long game_id);
+			@Param("url") String url, @Param("game_id") Long game_id, @Param("driveid") String driveid);
 	
 	/**
 	 * Consulta que nos trae una filesn segun el id del producto introducido

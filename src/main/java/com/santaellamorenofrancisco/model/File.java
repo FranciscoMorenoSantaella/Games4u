@@ -30,6 +30,8 @@ public class File implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
+	@Column(name = "driveid")
+	private String driveid;
 	@Column(name = "uniquename", unique = true)
 	private String uniquename;
 	@Column(name = "originalname")
@@ -43,7 +45,7 @@ public class File implements Serializable {
 	@JoinColumn(name = "game_id", nullable = false)
 	private Game game;
 		
-	File(Long id, String uniquename, String originalname, String url, Boolean executable, Game game) {
+	File(Long id, String uniquename, String originalname, String url, Boolean executable, Game game, String driveid) {
 		super();
 		this.id = id;
 		this.uniquename = uniquename;
@@ -51,10 +53,19 @@ public class File implements Serializable {
 		this.url = url;
 		this.executable = executable;
 		this.game = game;
+		this.driveid = driveid;
 	}
 
 	public File() {
 		super();
+	}
+
+	public String getDriveid() {
+		return driveid;
+	}
+
+	public void setDriveid(String driveid) {
+		this.driveid = driveid;
 	}
 
 	public Long getId() {

@@ -72,21 +72,22 @@ public class FileService {
 			uploadfile.setUniquename(uniquename + "." + FileUtils.getExtension(file.getOriginalFilename()));
 			uploadfile.setExecutable(executable);
 			repository.insertFile(uploadfile.getOriginalname(),uploadfile.getExecutable(), uploadfile.getUniquename(), uploadfile.getUrl(),
-					game_id);
+					game_id,"nada");
 		} catch (Exception e) {
 			throw new RuntimeException("No se puede guardar el archivo. Error " + e.getMessage());
 		}
 	}
 	
-	public void saveDatabase(MultipartFile file, String uniquename, Long game_id, Boolean executable, String url) {
+	public void saveDatabase(MultipartFile file, String uniquename, Long game_id, Boolean executable, String url,String driveid) {
 		File uploadfile = new File();
 		try {
 			uploadfile.setUrl(url);
 			uploadfile.setOriginalname(file.getOriginalFilename());
 			uploadfile.setUniquename(uniquename + "." + FileUtils.getExtension(file.getOriginalFilename()));
 			uploadfile.setExecutable(executable);
+			uploadfile.setDriveid(driveid);
 			repository.insertFile(uploadfile.getOriginalname(),uploadfile.getExecutable(), uploadfile.getUniquename(), uploadfile.getUrl(),
-					game_id);
+					game_id,uploadfile.getDriveid());
 		} catch (Exception e) {
 			throw new RuntimeException("No se puede guardar el archivo. Error " + e.getMessage());
 		}

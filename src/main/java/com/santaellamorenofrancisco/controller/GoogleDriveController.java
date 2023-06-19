@@ -66,7 +66,7 @@ public class GoogleDriveController {
 				    String imageUrl = getImageUrl(uploadedFile.getId());
 				String uniquename = FileUtils.uniqueFileName();
 				System.out.println(uniquename);
-				service.saveDatabase(files, uniquename, game_id,executable,imageUrl,uploadedFile.getDriveId());
+				service.saveDatabase(files, uniquename, game_id,executable,imageUrl,uploadedFile.getId());
 				System.out.println("Guardo en la base de datos");
 		
 			      // Upload the file to Google Drive
